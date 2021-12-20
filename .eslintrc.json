@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es2021": true,
@@ -6,17 +7,27 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "google",
+    "airbnb",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react-hooks/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     // 「.ts」と「.tsx」を認識させる。
     "import/resolver": {
       "node": {
@@ -30,6 +41,7 @@
     "no-use-before-define": "off",
 
     // SUGGESTIONS
+    "arrow-body-style": ["error", "always"],
 
     // LAYOUT & FORMATTING
     // const { hoge, hogehoge, hogehogehoge } = props;の形で改行せずに記述してもエラーを出さないように。
@@ -63,6 +75,13 @@
         "jsx": "never",
         "ts": "never",
         "tsx": "never"
+      }
+    ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
       }
     ]
   }
