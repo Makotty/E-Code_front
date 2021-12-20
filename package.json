@@ -1,12 +1,16 @@
 {
   "name": "e-code-front",
   "version": "0.0.0",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/Makotty/E-Code_front",
+  "author": "Mako<makotty.mako@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "format": "yarn prettier --write .",
     "format-check": "npx prettier --check .",
+    "lint": "yarn run eslint --fix",
     "prepare": "husky install"
   },
   "dependencies": {
