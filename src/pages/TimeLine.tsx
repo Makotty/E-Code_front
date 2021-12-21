@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 // MUI
 import { Button } from '@mui/material'
@@ -13,8 +13,10 @@ import auth from '../firebase'
 
 // Components
 import BaseLayout from '../components/BaseLayout'
+import { useOAuthContext } from '../contexts/OAuthContext'
 
 const TimeLine: VFC = () => {
+  const { oAuthCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -29,6 +31,12 @@ const TimeLine: VFC = () => {
         setErrorMessage(error.message)
       })
   }
+
+  // oAuthCurrentUserを保持していなければ"/"に遷移
+  if (!oAuthCurrentUser) {
+    return <Navigate to="/" />
+  }
+
   return (
     <BaseLayout>
       <h2>タイムライン</h2>
