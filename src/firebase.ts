@@ -2,8 +2,9 @@ import * as firebase from 'firebase/app'
 import {
   Auth,
   getAuth,
-  GithubAuthProvider,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  GithubAuthProvider
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -26,6 +27,7 @@ const getFirebaseAuth = (): Auth => {
 export const auth = getFirebaseAuth()
 
 export const googleProvider = new GoogleAuthProvider()
+export const twitterProvider = new TwitterAuthProvider()
 export const githubProvider = new GithubAuthProvider()
 
 export default auth
