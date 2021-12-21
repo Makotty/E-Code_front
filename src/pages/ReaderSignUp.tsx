@@ -1,6 +1,6 @@
 // React
 import { useState } from 'react'
-import type { VFC } from 'react'
+import type { VFC, MouseEvent } from 'react'
 
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
@@ -22,6 +22,9 @@ import { IFormValues } from '../types/FormValues'
 // Components
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
+
+// Containers
+import googleAuth from '../containers/OAuth'
 
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
@@ -91,6 +94,8 @@ const ReaderSignUp: VFC = () => {
       <div>
         ログインは<Link to="/reader_login">こちら</Link>から
       </div>
+
+      <Button onClick={googleAuth}>Sign Up with Google</Button>
     </BaseLayout>
   )
 }

@@ -20,6 +20,9 @@ import { auth } from '../firebase'
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
 
+// Containers
+import googleAuth from '../containers/OAuth'
+
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
 
@@ -92,6 +95,8 @@ const ReaderLogin: VFC = () => {
       <div>
         ユーザ登録は<Link to="/reader_signup">こちら</Link>から
       </div>
+
+      <Button onClick={googleAuth}>Sign Up with Google</Button>
     </BaseLayout>
   )
 }
