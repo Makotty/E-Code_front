@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react'
+import { createContext, useState, useEffect, useContext, useMemo } from 'react'
 import type { ReactNode, VFC } from 'react'
 
 // Firebase
@@ -6,35 +6,39 @@ import { onAuthStateChanged } from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { auth } from '../firebase'
 
-type AuthContextProps = {
-  currentUser: User | null | undefined
+type OAuthContextProps = {
+  oAuthCurrentUser: User | null | undefined
 }
 
-export const AuthContext = createContext<AuthContextProps>({
-  currentUser: undefined
+export const OAuthContext = createContext<OAuthContextProps>({
+  oAuthCurrentUser: undefined
 })
 
-export const useAuthContext = () => {
-  return useContext(AuthContext)
+export const useOAuthContext = () => {
+  return useContext(OAuthContext)
 }
 
 type Props = {
   children: ReactNode
 }
 
-export const AuthProvider: VFC<Props> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
-    undefined
-  )
+export const OAuthContextProvider: VFC<Props> = ({ children }) => {
+  const [oAuthCurrentUser, setOAuthCurrentUser] = useState<
+    User | null | undefined
+  >(undefined)
   const [loading, setLoading] = useState(true)
 
+  const value = useMemo(() => {
+    return { oAuthCurrentUser }
+  }, [oAuthCurrentUser])
+
   useEffect(() => {
-    const unsubscribed = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setOAuthCurrentUser(user)
       setLoading(false)
     })
     return () => {
-      unsubscribed()
+      unsubscribe()
     }
   }, [])
 
@@ -43,8 +47,8 @@ export const AuthProvider: VFC<Props> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <OAuthContext.Provider value={value}>
       {!loading && children}
-    </AuthContext.Provider>
+    </OAuthContext.Provider>
   )
 }
