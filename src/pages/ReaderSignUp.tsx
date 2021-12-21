@@ -18,6 +18,7 @@ import { auth } from '../firebase'
 import { IFormValues } from '../types/FormValues'
 
 // Components
+import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
 
 const ReaderSignUp: VFC = () => {
@@ -43,35 +44,37 @@ const ReaderSignUp: VFC = () => {
   }
 
   return (
-    <Paper>
-      <h2>サインアップ</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.email?.type === 'required' && (
-          <p>メールアドレスが入力されていません</p>
-        )}
-        <BaseInput
-          fieldLabel="email"
-          placeholder="example@example.com"
-          label="email"
-          register={register}
-          requiredFlag
-        />
-        {errors.password?.type === 'required' && (
-          <p>パスワードが入力されていません</p>
-        )}
-        <BaseInput
-          fieldLabel="password"
-          type="password"
-          label="password"
-          register={register}
-          requiredFlag
-        />
-        <Button variant="contained" type="submit" disableElevation>
-          送信
-        </Button>
-      </form>
-    </Paper>
+    <BaseLayout>
+      <Paper>
+        <h2>サインアップ</h2>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {errors.email?.type === 'required' && (
+            <p>メールアドレスが入力されていません</p>
+          )}
+          <BaseInput
+            fieldLabel="email"
+            placeholder="example@example.com"
+            label="email"
+            register={register}
+            requiredFlag
+          />
+          {errors.password?.type === 'required' && (
+            <p>パスワードが入力されていません</p>
+          )}
+          <BaseInput
+            fieldLabel="password"
+            type="password"
+            label="password"
+            register={register}
+            requiredFlag
+          />
+          <Button variant="contained" type="submit" disableElevation>
+            送信
+          </Button>
+        </form>
+      </Paper>
+    </BaseLayout>
   )
 }
 
