@@ -9,10 +9,15 @@ const AccountSelection: VFC = () => {
   return (
     <BaseLayout>
       <Button variant="contained" component={Link} to="/reader_signup">
-        読む人で登録する。
+        読む人
       </Button>
-      <Button variant="contained" component={Link} to="/corder_signup">
-        書く人で登録する。
+      <Button
+        variant="contained"
+        color="secondary"
+        component={Link}
+        to="/corder_signup"
+      >
+        書く人
       </Button>
     </BaseLayout>
   )
