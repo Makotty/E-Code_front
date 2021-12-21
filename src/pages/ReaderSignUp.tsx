@@ -20,7 +20,7 @@ import { IFormValues } from '../types/FormValues'
 // Components
 import BaseInput from '../components/BaseInput'
 
-const SignUp: VFC = () => {
+const ReaderSignUp: VFC = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const {
@@ -75,4 +75,4 @@ const SignUp: VFC = () => {
   )
 }
 
-export default SignUp
+export default ReaderSignUp
