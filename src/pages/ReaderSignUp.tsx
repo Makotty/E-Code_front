@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 // React-Hook-Form
 import { useForm } from 'react-hook-form'
@@ -26,6 +26,8 @@ import BaseInput from '../components/BaseInput'
 const ReaderSignUp: VFC = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -38,7 +40,10 @@ const ReaderSignUp: VFC = () => {
       .then((userCredential) => {
         // Signed in
         const { user } = userCredential
-        console.log(user)
+        // アカウントを作成出来たらTimeLineを表示
+        if (user) {
+          navigate('/timeline')
+        }
       })
       .catch((error: AuthError) => {
         setErrorMessage(error.message)
