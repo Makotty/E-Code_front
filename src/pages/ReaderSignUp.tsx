@@ -19,19 +19,20 @@ import { auth } from '../firebase'
 // Components
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
+import BaseOAuthButton from '../components/BaseOAuthButton'
 
 // Containers
-import { googleAuth, githubAuth } from '../containers/OAuth'
+import { googleAuth, twitterAuth, githubAuth } from '../containers/OAuth'
 
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
-import BaseOAuthButton from '../components/BaseOAuthButton'
 
 // Types
 import { IFormValues } from '../types/FormValues'
 
 // Images
 import googleIcon from '../assets/images/google-icon.svg'
+import twitterIcon from '../assets/images/twitter-icon.svg'
 import githubIcon from '../assets/images/github-icon.svg'
 
 const ReaderSignUp: VFC = () => {
@@ -104,6 +105,11 @@ const ReaderSignUp: VFC = () => {
         serviceAuth={googleAuth}
         oAuthIcon={googleIcon}
         oAuthAlt="Googleのアイコン"
+      />
+      <BaseOAuthButton
+        serviceAuth={twitterAuth}
+        oAuthIcon={twitterIcon}
+        oAuthAlt="Twitterのアイコン"
       />
       <BaseOAuthButton
         serviceAuth={githubAuth}
