@@ -1,6 +1,7 @@
 import type { VFC } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+// Contexts
 import { OAuthContextProvider } from './contexts/OAuthContext'
 
 // Pages
