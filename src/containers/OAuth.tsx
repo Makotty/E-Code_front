@@ -1,10 +1,13 @@
 // Firebase
 import { signInWithRedirect } from 'firebase/auth'
-import { auth, googleProvider } from '../firebase'
+import { auth, googleProvider, githubProvider } from '../firebase'
 
 // Google
-const googleAuth = async () => {
+export const googleAuth = async () => {
   await signInWithRedirect(auth, googleProvider)
 }
 
-export default googleAuth
+// GitHub
+export const githubAuth = async () => {
+  await signInWithRedirect(auth, githubProvider)
+}

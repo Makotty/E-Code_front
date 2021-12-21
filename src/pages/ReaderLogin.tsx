@@ -22,7 +22,7 @@ import BaseInput from '../components/BaseInput'
 import BaseOAuthButton from '../components/BaseOAuthButton'
 
 // Containers
-import googleAuth from '../containers/OAuth'
+import { googleAuth, githubAuth } from '../containers/OAuth'
 
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
@@ -32,6 +32,7 @@ import { IFormValues } from '../types/FormValues'
 
 // Images
 import googleIcon from '../assets/images/google-icon.svg'
+import githubIcon from '../assets/images/github-icon.svg'
 
 const ReaderLogin: VFC = () => {
   const { oAuthCurrentUser } = useOAuthContext()
@@ -104,6 +105,11 @@ const ReaderLogin: VFC = () => {
         serviceAuth={googleAuth}
         oAuthIcon={googleIcon}
         oAuthAlt="Googleのアイコン"
+      />
+      <BaseOAuthButton
+        serviceAuth={githubAuth}
+        oAuthIcon={githubIcon}
+        oAuthAlt="GitHubのアイコン"
       />
     </BaseLayout>
   )
