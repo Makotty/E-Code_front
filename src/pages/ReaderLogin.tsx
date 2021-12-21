@@ -2,26 +2,35 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+
 // React-Hook-Form
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 
 // Mui
-import { Button, Paper } from '@mui/material'
+import { Button } from '@mui/material'
 
 // Firebase
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import type { AuthError } from 'firebase/auth'
 import { auth } from '../firebase'
+
+// Components
+import BaseLayout from '../components/BaseLayout'
+import BaseInput from '../components/BaseInput'
+
+// Contexts
+import { useOAuthContext } from '../contexts/OAuthContext'
 
 // Types
 import { IFormValues } from '../types/FormValues'
 
-// Components
-import BaseInput from '../components/BaseInput'
-
-const SignUp: VFC = () => {
+const ReaderLogin: VFC = () => {
+  const { oAuthCurrentUser } = useOAuthContext()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const navigate = useNavigate()
 
   const {
     register,
@@ -31,20 +40,29 @@ const SignUp: VFC = () => {
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     const { email, password } = data
-    await createUserWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const { user } = userCredential
-        console.log(user)
+
+        // ログイン出来たらTimeLineを表示
+        if (user) {
+          navigate('/timeline')
+        }
       })
       .catch((error: AuthError) => {
         setErrorMessage(error.message)
       })
   }
 
+  // oAuthCurrentUserを保持していればタイムライン画面を表示
+  if (oAuthCurrentUser) {
+    return <Navigate to="/timeline" />
+  }
+
   return (
-    <Paper>
-      <h2>サインアップ</h2>
+    <BaseLayout>
+      <h2>ログイン画面(Reader)</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         {errors.email?.type === 'required' && (
@@ -68,11 +86,14 @@ const SignUp: VFC = () => {
           requiredFlag
         />
         <Button variant="contained" type="submit" disableElevation>
-          送信
+          ログイン
         </Button>
       </form>
-    </Paper>
+      <div>
+        ユーザ登録は<Link to="/reader_signup">こちら</Link>から
+      </div>
+    </BaseLayout>
   )
 }
 
-export default SignUp
+export default ReaderLogin
