@@ -19,6 +19,7 @@ import { auth } from '../firebase'
 // Components
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
+import BaseOAuthButton from '../components/BaseOAuthButton'
 
 // Containers
 import googleAuth from '../containers/OAuth'
@@ -28,6 +29,9 @@ import { useOAuthContext } from '../contexts/OAuthContext'
 
 // Types
 import { IFormValues } from '../types/FormValues'
+
+// Images
+import googleIcon from '../assets/images/google-icon.svg'
 
 const ReaderLogin: VFC = () => {
   const { oAuthCurrentUser } = useOAuthContext()
@@ -96,7 +100,11 @@ const ReaderLogin: VFC = () => {
         ユーザ登録は<Link to="/reader_signup">こちら</Link>から
       </div>
 
-      <Button onClick={googleAuth}>Sign Up with Google</Button>
+      <BaseOAuthButton
+        serviceAuth={googleAuth}
+        oAuthIcon={googleIcon}
+        oAuthAlt="Googleのアイコン"
+      />
     </BaseLayout>
   )
 }

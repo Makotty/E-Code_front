@@ -1,6 +1,6 @@
 // React
 import { useState } from 'react'
-import type { VFC, MouseEvent } from 'react'
+import type { VFC } from 'react'
 
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
@@ -16,9 +16,6 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import type { AuthError } from 'firebase/auth'
 import { auth } from '../firebase'
 
-// Types
-import { IFormValues } from '../types/FormValues'
-
 // Components
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
@@ -28,6 +25,13 @@ import googleAuth from '../containers/OAuth'
 
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
+import BaseOAuthButton from '../components/BaseOAuthButton'
+
+// Types
+import { IFormValues } from '../types/FormValues'
+
+// Images
+import googleIcon from '../assets/images/google-icon.svg'
 
 const ReaderSignUp: VFC = () => {
   const { oAuthCurrentUser } = useOAuthContext()
@@ -95,7 +99,11 @@ const ReaderSignUp: VFC = () => {
         ログインは<Link to="/reader_login">こちら</Link>から
       </div>
 
-      <Button onClick={googleAuth}>Sign Up with Google</Button>
+      <BaseOAuthButton
+        serviceAuth={googleAuth}
+        oAuthIcon={googleIcon}
+        oAuthAlt="Googleのアイコン"
+      />
     </BaseLayout>
   )
 }
