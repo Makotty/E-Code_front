@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 // React-Hook-Form
 import { useForm } from 'react-hook-form'
@@ -16,14 +16,18 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import type { AuthError } from 'firebase/auth'
 import { auth } from '../firebase'
 
-// Types
-import { IFormValues } from '../types/FormValues'
-
 // Components
 import BaseLayout from '../components/BaseLayout'
 import BaseInput from '../components/BaseInput'
 
+// Contexts
+import { useOAuthContext } from '../contexts/OAuthContext'
+
+// Types
+import { IFormValues } from '../types/FormValues'
+
 const ReaderLogin: VFC = () => {
+  const { oAuthCurrentUser } = useOAuthContext()
   const [errorMessage, setErrorMessage] = useState('')
 
   const navigate = useNavigate()
@@ -49,6 +53,11 @@ const ReaderLogin: VFC = () => {
       .catch((error: AuthError) => {
         setErrorMessage(error.message)
       })
+  }
+
+  // oAuthCurrentUserを保持していればタイムライン画面を表示
+  if (oAuthCurrentUser) {
+    return <Navigate to="/timeline" />
   }
 
   return (
