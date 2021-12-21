@@ -2,12 +2,14 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
+import { Link } from 'react-router-dom'
+
 // React-Hook-Form
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 
 // Mui
-import { Button, Paper } from '@mui/material'
+import { Button } from '@mui/material'
 
 // Firebase
 import { createUserWithEmailAndPassword } from 'firebase/auth'
@@ -45,35 +47,36 @@ const ReaderSignUp: VFC = () => {
 
   return (
     <BaseLayout>
-      <Paper>
-        <h2>サインアップ</h2>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {errors.email?.type === 'required' && (
-            <p>メールアドレスが入力されていません</p>
-          )}
-          <BaseInput
-            fieldLabel="email"
-            placeholder="example@example.com"
-            label="email"
-            register={register}
-            requiredFlag
-          />
-          {errors.password?.type === 'required' && (
-            <p>パスワードが入力されていません</p>
-          )}
-          <BaseInput
-            fieldLabel="password"
-            type="password"
-            label="password"
-            register={register}
-            requiredFlag
-          />
-          <Button variant="contained" type="submit" disableElevation>
-            送信
-          </Button>
-        </form>
-      </Paper>
+      <h2>サインアップ(Reader)</h2>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.email?.type === 'required' && (
+          <p>メールアドレスが入力されていません</p>
+        )}
+        <BaseInput
+          fieldLabel="email"
+          placeholder="example@example.com"
+          label="email"
+          register={register}
+          requiredFlag
+        />
+        {errors.password?.type === 'required' && (
+          <p>パスワードが入力されていません</p>
+        )}
+        <BaseInput
+          fieldLabel="password"
+          type="password"
+          label="password"
+          register={register}
+          requiredFlag
+        />
+        <Button variant="contained" type="submit" disableElevation>
+          アカウントを作成
+        </Button>
+      </form>
+      <div>
+        ログインは<Link to="/reader_login">こちら</Link>から
+      </div>
     </BaseLayout>
   )
 }
