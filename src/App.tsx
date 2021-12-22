@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 
 // Contexts
+import { AuthContextProvider } from '@contexts/AuthContext'
 import { OAuthContextProvider } from '@contexts/OAuthContext'
 
 // Pages
@@ -19,16 +20,18 @@ import theme from '@styles/theme'
 const App: VFC = () => {
   return (
     <ThemeProvider theme={theme}>
-      <OAuthContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<AccountSelection />} />
-            <Route path="/reader_signup" element={<ReaderSignUp />} />
-            <Route path="/reader_login" element={<ReaderLogin />} />
-            <Route path="/timeline" element={<TimeLine />} />
-          </Routes>
-        </BrowserRouter>
-      </OAuthContextProvider>
+      <AuthContextProvider>
+        <OAuthContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<AccountSelection />} />
+              <Route path="/reader_signup" element={<ReaderSignUp />} />
+              <Route path="/reader_login" element={<ReaderLogin />} />
+              <Route path="/timeline" element={<TimeLine />} />
+            </Routes>
+          </BrowserRouter>
+        </OAuthContextProvider>
+      </AuthContextProvider>
     </ThemeProvider>
   )
 }
