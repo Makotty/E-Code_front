@@ -18,15 +18,16 @@ export const useOAuthContext = () => {
   return useContext(OAuthContext)
 }
 
-type Props = {
+type OAuthContextProviderProps = {
   children: ReactNode
 }
 
-export const OAuthContextProvider: VFC<Props> = ({ children }) => {
+export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
+  children
+}) => {
   const [oAuthCurrentUser, setOAuthCurrentUser] = useState<
     User | null | undefined
   >(undefined)
-  const [loading, setLoading] = useState(true)
 
   const value = useMemo(() => {
     return { oAuthCurrentUser }
@@ -35,20 +36,11 @@ export const OAuthContextProvider: VFC<Props> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setOAuthCurrentUser(user)
-      setLoading(false)
     })
     return () => {
       unsubscribe()
     }
   }, [])
 
-  if (loading) {
-    return <p>loading...</p>
-  }
-
-  return (
-    <OAuthContext.Provider value={value}>
-      {!loading && children}
-    </OAuthContext.Provider>
-  )
+  return <OAuthContext.Provider value={value}>{children}</OAuthContext.Provider>
 }

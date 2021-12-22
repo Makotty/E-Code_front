@@ -1,5 +1,4 @@
 // React
-import { useState } from 'react'
 import type { VFC } from 'react'
 
 // React Router
@@ -12,44 +11,32 @@ import type { SubmitHandler } from 'react-hook-form'
 // Mui
 import { Button } from '@mui/material'
 
-// Firebase
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import type { AuthError } from 'firebase/auth'
-
-// Images
-import googleIcon from '@images/google-icon.svg'
-import twitterIcon from '@images/twitter-icon.svg'
-import facebookIcon from '@images/facebook-icon.svg'
-import githubIcon from '@images/github-icon.svg'
+// Js-Cookies
+import Cookies from 'js-cookie'
 
 // Components
 import BaseLayout from '@components/BaseLayout'
 import BaseInput from '@components/BaseInput'
-import BaseOAuthButton from '@components/BaseOAuthButton'
-
-// Containers
-import {
-  googleAuth,
-  twitterAuth,
-  facebookAuth,
-  githubAuth
-} from '@containers/OAuth'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
 
+// Interfaces
+import { CorderLogInParams } from '@interfaces/index'
+
+// Lib
+import { corderLogIn } from '@lib/api/auth'
+
 // Types
 import { IFormValues } from '../types/FormValues'
 
-import { auth } from '../firebase'
-
-const ReaderLogin: VFC = () => {
+const CorderLogIn: VFC = () => {
   const { corderCurrentUser } = useAuthContext()
   const { oAuthCurrentUser } = useOAuthContext()
-  const [errorMessage, setErrorMessage] = useState('')
-
   const navigate = useNavigate()
+
+  const { setIsSignedIn, setCorderCurrentUser } = useAuthContext()
 
   const {
     register,
@@ -59,19 +46,31 @@ const ReaderLogin: VFC = () => {
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
     const { email, password } = data
-    await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const { user } = userCredential
 
-        // ログイン出来たらTimeLineを表示
-        if (user) {
-          navigate('/timeline')
-        }
-      })
-      .catch((error: AuthError) => {
-        setErrorMessage(error.message)
-      })
+    const params: CorderLogInParams = {
+      email,
+      password
+    }
+
+    try {
+      const response = await corderLogIn(params)
+      console.log(response)
+
+      if (response.status === 200) {
+        // ログインに成功したらCookieを格納
+        Cookies.set('_access_token', response.headers['access-token'])
+        Cookies.set('_client', response.headers.client)
+        Cookies.set('_uid', response.headers.uid)
+
+        setIsSignedIn(true)
+        setCorderCurrentUser(response.data.data)
+
+        navigate('/timeline')
+        console.log('ログインできました')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   if (corderCurrentUser || oAuthCurrentUser) {
@@ -80,8 +79,7 @@ const ReaderLogin: VFC = () => {
 
   return (
     <BaseLayout>
-      <h2>ログイン画面(Reader)</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <h2>ログイン画面(Corder)</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {errors.email?.type === 'required' && (
           <p>メールアドレスが入力されていません</p>
@@ -108,31 +106,10 @@ const ReaderLogin: VFC = () => {
         </Button>
       </form>
       <div>
-        ユーザ登録は<Link to="/reader_signup">こちら</Link>から
+        ユーザ登録は<Link to="/corder_signup">こちら</Link>から
       </div>
-
-      <BaseOAuthButton
-        serviceAuth={googleAuth}
-        oAuthIcon={googleIcon}
-        oAuthAlt="Googleのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={twitterAuth}
-        oAuthIcon={twitterIcon}
-        oAuthAlt="Twitterのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={facebookAuth}
-        oAuthIcon={facebookIcon}
-        oAuthAlt="facebookのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={githubAuth}
-        oAuthIcon={githubIcon}
-        oAuthAlt="GitHubのアイコン"
-      />
     </BaseLayout>
   )
 }
 
-export default ReaderLogin
+export default CorderLogIn
