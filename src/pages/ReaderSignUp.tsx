@@ -36,6 +36,7 @@ import {
 } from '@containers/OAuth'
 
 // Contexts
+import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Types
@@ -44,6 +45,7 @@ import { IFormValues } from '../types/FormValues'
 import { auth } from '../firebase'
 
 const ReaderSignUp: VFC = () => {
+  const { corderCurrentUser } = useAuthContext()
   const { oAuthCurrentUser } = useOAuthContext()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -71,8 +73,7 @@ const ReaderSignUp: VFC = () => {
       })
   }
 
-  // oAuthCurrentUserを保持していればタイムライン画面を表示
-  if (oAuthCurrentUser) {
+  if (corderCurrentUser || oAuthCurrentUser) {
     return <Navigate to="/timeline" />
   }
 

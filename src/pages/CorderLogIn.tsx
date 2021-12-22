@@ -2,7 +2,7 @@
 import type { VFC } from 'react'
 
 // React Router
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 // React-Hook-Form
 import { useForm } from 'react-hook-form'
@@ -20,6 +20,7 @@ import BaseInput from '@components/BaseInput'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Interfaces
 import { CorderLogInParams } from '@interfaces/index'
@@ -31,6 +32,8 @@ import { corderLogIn } from '@lib/api/auth'
 import { IFormValues } from '../types/FormValues'
 
 const CorderLogIn: VFC = () => {
+  const { corderCurrentUser } = useAuthContext()
+  const { oAuthCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
 
   const { setIsSignedIn, setCorderCurrentUser } = useAuthContext()
@@ -69,6 +72,11 @@ const CorderLogIn: VFC = () => {
       console.log(error)
     }
   }
+
+  if (corderCurrentUser || oAuthCurrentUser) {
+    return <Navigate to="/timeline" />
+  }
+
   return (
     <BaseLayout>
       <h2>ログイン画面(Corder)</h2>
