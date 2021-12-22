@@ -18,11 +18,13 @@ export const useOAuthContext = () => {
   return useContext(OAuthContext)
 }
 
-type Props = {
+type OAuthContextProviderProps = {
   children: ReactNode
 }
 
-export const OAuthContextProvider: VFC<Props> = ({ children }) => {
+export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
+  children
+}) => {
   const [oAuthCurrentUser, setOAuthCurrentUser] = useState<
     User | null | undefined
   >(undefined)
