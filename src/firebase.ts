@@ -4,6 +4,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   TwitterAuthProvider,
+  FacebookAuthProvider,
   GithubAuthProvider
 } from 'firebase/auth'
 
@@ -28,6 +29,7 @@ export const auth = getFirebaseAuth()
 
 export const googleProvider = new GoogleAuthProvider()
 export const twitterProvider = new TwitterAuthProvider()
+export const facebookProvider = new FacebookAuthProvider()
 export const githubProvider = new GithubAuthProvider()
 
 export default auth

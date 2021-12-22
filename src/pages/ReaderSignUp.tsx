@@ -22,7 +22,12 @@ import BaseInput from '../components/BaseInput'
 import BaseOAuthButton from '../components/BaseOAuthButton'
 
 // Containers
-import { googleAuth, twitterAuth, githubAuth } from '../containers/OAuth'
+import {
+  googleAuth,
+  twitterAuth,
+  facebookAuth,
+  githubAuth
+} from '../containers/OAuth'
 
 // Contexts
 import { useOAuthContext } from '../contexts/OAuthContext'
@@ -33,6 +38,7 @@ import { IFormValues } from '../types/FormValues'
 // Images
 import googleIcon from '../assets/images/google-icon.svg'
 import twitterIcon from '../assets/images/twitter-icon.svg'
+import facebookIcon from '../assets/images/facebook-icon.svg'
 import githubIcon from '../assets/images/github-icon.svg'
 
 const ReaderSignUp: VFC = () => {
@@ -100,7 +106,6 @@ const ReaderSignUp: VFC = () => {
       <div>
         ログインは<Link to="/reader_login">こちら</Link>から
       </div>
-
       <BaseOAuthButton
         serviceAuth={googleAuth}
         oAuthIcon={googleIcon}
@@ -110,6 +115,11 @@ const ReaderSignUp: VFC = () => {
         serviceAuth={twitterAuth}
         oAuthIcon={twitterIcon}
         oAuthAlt="Twitterのアイコン"
+      />
+      <BaseOAuthButton
+        serviceAuth={facebookAuth}
+        oAuthIcon={facebookIcon}
+        oAuthAlt="facebookのアイコン"
       />
       <BaseOAuthButton
         serviceAuth={githubAuth}
