@@ -28,7 +28,6 @@ export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
   const [oAuthCurrentUser, setOAuthCurrentUser] = useState<
     User | null | undefined
   >(undefined)
-  const [loading, setLoading] = useState(true)
 
   const value = useMemo(() => {
     return { oAuthCurrentUser }
@@ -37,20 +36,11 @@ export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setOAuthCurrentUser(user)
-      setLoading(false)
     })
     return () => {
       unsubscribe()
     }
   }, [])
 
-  if (loading) {
-    return <p>loading...</p>
-  }
-
-  return (
-    <OAuthContext.Provider value={value}>
-      {!loading && children}
-    </OAuthContext.Provider>
-  )
+  return <OAuthContext.Provider value={value}>{children}</OAuthContext.Provider>
 }
