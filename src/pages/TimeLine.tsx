@@ -6,7 +6,7 @@ import type { VFC } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 // MUI
-import { Button } from '@mui/material'
+import { Avatar, Button } from '@mui/material'
 
 // Js-Cookies
 import Cookies from 'js-cookie'
@@ -85,6 +85,12 @@ const TimeLine: VFC = () => {
         <>
           <h2>Email: {corderCurrentUser?.email}</h2>
           <h2>Name: {corderCurrentUser?.name}</h2>
+          <Avatar
+            src={corderCurrentUser?.fileUrl}
+            alt="アカウントアイコン"
+            sx={{ width: 64, height: 64 }}
+          />
+          <h2>Name: {corderCurrentUser?.birthDay}</h2>
           <Button onClick={handleCorderSignOut}>Log Out</Button>
         </>
       )}
