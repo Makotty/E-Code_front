@@ -11,18 +11,35 @@ import {
 
 import client from './client'
 
+type corderSignUpProps = {
+  data: SetStateAction<CorderUser | undefined>
+}
+
 // Sign Up(Corder)
-export const corderSignUp = (params: CorderSignUpParams) => {
+export const corderSignUp = (
+  params: CorderSignUpParams
+): Promise<AxiosResponse<corderSignUpProps>> => {
   return client.post('auth', params)
 }
 
+type corderLogInProps = {
+  data: SetStateAction<CorderUser | undefined>
+}
+
 // Log In(Corder)
-export const corderLogIn = (params: CorderLogInParams) => {
+export const corderLogIn = (
+  params: CorderLogInParams
+): Promise<AxiosResponse<corderLogInProps>> => {
   return client.post('auth/sign_in', params)
 }
 
+type corderLogOutProps = {
+  success: boolean
+  data: SetStateAction<CorderUser | undefined>
+}
+
 // Sign Out(Corder)
-export const corderLogOut = () => {
+export const corderLogOut = (): Promise<AxiosResponse<corderLogOutProps>> => {
   return client.delete('auth/sign_out', {
     headers: {
       'access-token': Cookies.get('_access_token') ?? '',
@@ -32,15 +49,16 @@ export const corderLogOut = () => {
   })
 }
 
-type AxiosResponseProps = {
+type getCurrentUserProps = {
   isLogin: boolean
   data: SetStateAction<CorderUser | undefined>
+  message: string
 }
 
 // 認証済みのユーザーを取得
-export const getCurrentUser: () =>
-  | Promise<AxiosResponse<AxiosResponseProps>>
-  | undefined = () => {
+export const getCurrentUser = ():
+  | Promise<AxiosResponse<getCurrentUserProps>>
+  | undefined => {
   if (
     !Cookies.get('_access_token') ||
     !Cookies.get('_client') ||
@@ -50,7 +68,7 @@ export const getCurrentUser: () =>
   return client.get('/auth/sessions', {
     headers: {
       'access-token': Cookies.get('_access_token') ?? '',
-      client: Cookies.get('_cilent') ?? '',
+      client: Cookies.get('_client') ?? '',
       uid: Cookies.get('_uid') ?? ''
     }
   })
