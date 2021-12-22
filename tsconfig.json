@@ -17,6 +17,8 @@
       "@components/*": ["src/components/*"],
       "@containers/*": ["src/containers/*"],
       "@contexts/*": ["src/contexts/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@lib/*": ["src/lib/*"],
       "@pages/*": ["src/pages/*"]
     },
     "moduleResolution": "Node",
