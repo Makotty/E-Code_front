@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
+// React Router
 import { Navigate, useNavigate } from 'react-router-dom'
 
 // MUI
@@ -9,11 +10,14 @@ import { Button } from '@mui/material'
 
 // Firebase
 import { AuthError, signOut } from 'firebase/auth'
-import auth from '../firebase'
+
+// Contexts
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Components
-import BaseLayout from '../components/BaseLayout'
-import { useOAuthContext } from '../contexts/OAuthContext'
+import BaseLayout from '@components/BaseLayout'
+
+import auth from '../firebase'
 
 const TimeLine: VFC = () => {
   const { oAuthCurrentUser } = useOAuthContext()

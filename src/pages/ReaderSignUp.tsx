@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import type { VFC } from 'react'
 
+// React Router
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 // React-Hook-Form
@@ -14,12 +15,17 @@ import { Button } from '@mui/material'
 // Firebase
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import type { AuthError } from 'firebase/auth'
-import { auth } from '../firebase'
+
+// Images
+import googleIcon from '@images/google-icon.svg'
+import twitterIcon from '@images/twitter-icon.svg'
+import facebookIcon from '@images/facebook-icon.svg'
+import githubIcon from '@images/github-icon.svg'
 
 // Components
-import BaseLayout from '../components/BaseLayout'
-import BaseInput from '../components/BaseInput'
-import BaseOAuthButton from '../components/BaseOAuthButton'
+import BaseLayout from '@components/BaseLayout'
+import BaseInput from '@components/BaseInput'
+import BaseOAuthButton from '@components/BaseOAuthButton'
 
 // Containers
 import {
@@ -27,19 +33,15 @@ import {
   twitterAuth,
   facebookAuth,
   githubAuth
-} from '../containers/OAuth'
+} from '@containers/OAuth'
 
 // Contexts
-import { useOAuthContext } from '../contexts/OAuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Types
 import { IFormValues } from '../types/FormValues'
 
-// Images
-import googleIcon from '../assets/images/google-icon.svg'
-import twitterIcon from '../assets/images/twitter-icon.svg'
-import facebookIcon from '../assets/images/facebook-icon.svg'
-import githubIcon from '../assets/images/github-icon.svg'
+import { auth } from '../firebase'
 
 const ReaderSignUp: VFC = () => {
   const { oAuthCurrentUser } = useOAuthContext()

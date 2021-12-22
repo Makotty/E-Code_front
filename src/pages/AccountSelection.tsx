@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@mui/material'
 
-import BaseLayout from '../components/BaseLayout'
+import BaseLayout from '@components/BaseLayout'
 
 const AccountSelection: VFC = () => {
   return (
