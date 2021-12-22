@@ -16,6 +16,8 @@ import ReaderLogin from '@pages/ReaderLogin'
 import ReaderSignUp from '@pages/ReaderSignUp'
 import TimeLine from '@pages/TimeLine'
 
+import EpisodeList from '@pages/EpisodeList'
+
 // Styles
 import theme from '@styles/theme'
 
@@ -32,6 +34,7 @@ const App: VFC = () => {
               <Route path="/corder_signup" element={<CorderSignUp />} />
               <Route path="/corder_login" element={<CorderLogin />} />
               <Route path="/timeline" element={<TimeLine />} />
+              <Route path="/episode_list" element={<EpisodeList />} />
             </Routes>
           </BrowserRouter>
         </OAuthContextProvider>
