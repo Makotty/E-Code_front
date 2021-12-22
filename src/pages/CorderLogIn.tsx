@@ -11,7 +11,7 @@ import type { SubmitHandler } from 'react-hook-form'
 // Mui
 import { Button } from '@mui/material'
 
-// Js-Cookies
+// Js-Cookie
 import Cookies from 'js-cookie'
 
 // Components
@@ -32,11 +32,10 @@ import { corderLogIn } from '@lib/api/auth'
 import { IFormValues } from '../types/FormValues'
 
 const CorderLogIn: VFC = () => {
-  const { corderCurrentUser } = useAuthContext()
-  const { oAuthCurrentUser } = useOAuthContext()
+  const { corderCurrentUser, setCorderCurrentUser, setIsSignedIn } =
+    useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
-
-  const { setIsSignedIn, setCorderCurrentUser } = useAuthContext()
 
   const {
     register,
@@ -73,7 +72,7 @@ const CorderLogIn: VFC = () => {
     }
   }
 
-  if (corderCurrentUser || oAuthCurrentUser) {
+  if (corderCurrentUser || readerCurrentUser) {
     return <Navigate to="/timeline" />
   }
 

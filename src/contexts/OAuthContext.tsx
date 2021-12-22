@@ -7,11 +7,11 @@ import type { User } from 'firebase/auth'
 import { auth } from '../firebase'
 
 type OAuthContextProps = {
-  oAuthCurrentUser: User | null | undefined
+  readerCurrentUser: User | null | undefined
 }
 
 export const OAuthContext = createContext<OAuthContextProps>({
-  oAuthCurrentUser: undefined
+  readerCurrentUser: undefined
 })
 
 export const useOAuthContext = () => {
@@ -25,17 +25,17 @@ type OAuthContextProviderProps = {
 export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
   children
 }) => {
-  const [oAuthCurrentUser, setOAuthCurrentUser] = useState<
+  const [readerCurrentUser, setReaderCurrentUser] = useState<
     User | null | undefined
   >(undefined)
 
   const value = useMemo(() => {
-    return { oAuthCurrentUser }
-  }, [oAuthCurrentUser])
+    return { readerCurrentUser }
+  }, [readerCurrentUser])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setOAuthCurrentUser(user)
+      setReaderCurrentUser(user)
     })
     return () => {
       unsubscribe()
