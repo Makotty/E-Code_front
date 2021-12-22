@@ -1,17 +1,8 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  SetStateAction,
-  Dispatch,
-  useMemo
-} from 'react'
-import type { VFC, ReactNode } from 'react'
+import { createContext, useState, useEffect, useContext, useMemo } from 'react'
+import type { VFC, ReactNode, Dispatch, SetStateAction } from 'react'
 import { CorderUser } from '@interfaces/index'
 import { getCurrentUser } from '@lib/api/auth'
 
-// グローバルで扱う変数・関数
 export const AuthContext = createContext(
   {} as {
     loading: boolean
@@ -40,22 +31,21 @@ export const AuthContextProvider: VFC<AuthContextProviderProps> = ({
     CorderUser | undefined
   >()
 
-  // 認証済みのユーザーがいるかどうかチェック
-  // 確認できた場合はそのユーザーの情報を取得
+  // ログイン済みのユーザーがいるかどうかチェックし、確認できた場合はそのユーザーの情報を取得
   const handleGetCurrentUser = async () => {
     try {
-      const res = await getCurrentUser()
+      const response = await getCurrentUser()
 
-      if (res?.data.isLogin === true) {
+      console.log(response)
+
+      if (response?.data.isLogin === true) {
         setIsSignedIn(true)
-        setCorderCurrentUser(res?.data.data)
-
-        console.log(res?.data.data)
+        setCorderCurrentUser(response?.data.data)
       } else {
-        console.log('No current user')
+        throw new Error(response?.data.message)
       }
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
     }
 
     setLoading(false)
