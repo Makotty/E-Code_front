@@ -4,6 +4,7 @@ import {
   auth,
   googleProvider,
   twitterProvider,
+  facebookProvider,
   githubProvider
 } from '../firebase'
 
@@ -15,6 +16,11 @@ export const googleAuth = async () => {
 // Twitter
 export const twitterAuth = async () => {
   await signInWithRedirect(auth, twitterProvider)
+}
+
+// Facebook
+export const facebookAuth = async () => {
+  await signInWithRedirect(auth, facebookProvider)
 }
 
 // GitHub
