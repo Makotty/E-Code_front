@@ -5,8 +5,10 @@ import ReactDOM from 'react-dom'
 import CssBaseLine from '@mui/material/CssBaseline'
 import { GlobalStyles } from '@mui/material'
 
+// Styles
+import globalStyles from '@styles/globalStyles'
+
 import App from './App'
-import globalStyles from './assets/styles/globalStyles'
 
 ReactDOM.render(
   <React.StrictMode>

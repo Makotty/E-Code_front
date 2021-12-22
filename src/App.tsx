@@ -5,16 +5,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material'
 
 // Contexts
-import { OAuthContextProvider } from './contexts/OAuthContext'
+import { OAuthContextProvider } from '@contexts/OAuthContext'
 
 // Pages
-import AccountSelection from './pages/AccountSelection'
-import ReaderLogin from './pages/ReaderLogin'
-import ReaderSignUp from './pages/ReaderSignUp'
-import TimeLine from './pages/TimeLine'
+import AccountSelection from '@pages/AccountSelection'
+import ReaderLogin from '@pages/ReaderLogin'
+import ReaderSignUp from '@pages/ReaderSignUp'
+import TimeLine from '@pages/TimeLine'
 
 // Styles
-import theme from './assets/styles/theme'
+import theme from '@styles/theme'
 
 const App: VFC = () => {
   return (
