@@ -4,6 +4,8 @@ export interface CorderSignUpParams {
   email: string
   password: string
   passwordConfirmation: string
+  birthDay: string
+  fileUrl: string
 }
 
 // Log In(Corder)
@@ -19,8 +21,8 @@ export interface CorderUser {
   provider: string
   email: string
   name: string
-  nickname?: string
-  image: string
+  birthDay: string
+  fileUrl: string
   allowPasswordChange: boolean
   created_at: Date
   updated_at: Date

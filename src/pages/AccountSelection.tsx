@@ -9,9 +9,9 @@ import { useAuthContext } from '@contexts/AuthContext'
 
 const AccountSelection: VFC = () => {
   const { corderCurrentUser } = useAuthContext()
-  const { oAuthCurrentUser } = useOAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
 
-  if (corderCurrentUser || oAuthCurrentUser) {
+  if (corderCurrentUser || readerCurrentUser) {
     return <Navigate to="/timeline" />
   }
 

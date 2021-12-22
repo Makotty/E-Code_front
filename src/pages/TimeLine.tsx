@@ -6,7 +6,7 @@ import type { VFC } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 // MUI
-import { Button } from '@mui/material'
+import { Avatar, Button } from '@mui/material'
 
 // Js-Cookies
 import Cookies from 'js-cookie'
@@ -28,7 +28,7 @@ import auth from '../firebase'
 
 const TimeLine: VFC = () => {
   const { isSignedIn, setIsSignedIn, corderCurrentUser } = useAuthContext()
-  const { oAuthCurrentUser } = useOAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -67,7 +67,7 @@ const TimeLine: VFC = () => {
     navigate('/')
   }
 
-  if (!corderCurrentUser && !oAuthCurrentUser) {
+  if (!corderCurrentUser && !readerCurrentUser) {
     return <Navigate to="/" />
   }
 
@@ -75,7 +75,7 @@ const TimeLine: VFC = () => {
     <BaseLayout>
       <h2>タイムライン</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      {oAuthCurrentUser && (
+      {readerCurrentUser && (
         <Button variant="contained" onClick={handleReaderLogout}>
           ログアウト(Reader)
         </Button>
@@ -85,7 +85,13 @@ const TimeLine: VFC = () => {
         <>
           <h2>Email: {corderCurrentUser?.email}</h2>
           <h2>Name: {corderCurrentUser?.name}</h2>
-          <Button onClick={handleCorderSignOut}>Log Out</Button>
+          <Avatar
+            src={corderCurrentUser?.fileUrl}
+            alt="アカウントアイコン"
+            sx={{ width: 64, height: 64 }}
+          />
+          <h2>Name: {corderCurrentUser?.birthDay}</h2>
+          <Button onClick={handleCorderSignOut}>ログアウト(Corder)</Button>
         </>
       )}
     </BaseLayout>

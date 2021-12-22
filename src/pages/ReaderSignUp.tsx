@@ -46,7 +46,7 @@ import { auth } from '../firebase'
 
 const ReaderSignUp: VFC = () => {
   const { corderCurrentUser } = useAuthContext()
-  const { oAuthCurrentUser } = useOAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
   const [errorMessage, setErrorMessage] = useState('')
 
   const navigate = useNavigate()
@@ -73,7 +73,7 @@ const ReaderSignUp: VFC = () => {
       })
   }
 
-  if (corderCurrentUser || oAuthCurrentUser) {
+  if (corderCurrentUser || readerCurrentUser) {
     return <Navigate to="/timeline" />
   }
 
