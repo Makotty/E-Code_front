@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import type { VFC } from 'react'
 
 // React Router
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 // Mui
 import { Button } from '@mui/material'
@@ -17,6 +17,8 @@ import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
 import type { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeList: VFC = () => {
+  const navigate = useNavigate()
+
   const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
 
   const handleGetEpisodeList = async () => {
@@ -60,7 +62,13 @@ const EpisodeList: VFC = () => {
   return (
     <BaseLayout>
       <h2>EpisodeList</h2>
-      <Button>エピソード投稿</Button>
+      <Button
+        onClick={() => {
+          return navigate('/episode_create')
+        }}
+      >
+        Episode Create
+      </Button>
       {episodeDataList?.map((contents) => {
         const { id, content } = contents
         return (
