@@ -1,7 +1,17 @@
+import type { SetStateAction } from 'react'
+import type { AxiosResponse } from 'axios'
+
 import client from './client'
 
+// Types
+import type { EpisodeDataList } from '../../types/EpisodeDataList'
+
+type getEpisodeListProps = SetStateAction<EpisodeDataList[] | undefined>
+
 // エピソード一覧
-export const getEpisodeList = () => {
+export const getEpisodeList = (): Promise<
+  AxiosResponse<getEpisodeListProps>
+> => {
   return client.get('/episodes')
 }
 
