@@ -1,4 +1,3 @@
-import type { SetStateAction } from 'react'
 import type { AxiosResponse } from 'axios'
 
 import client from './client'
@@ -6,17 +5,20 @@ import client from './client'
 // Types
 import type { EpisodeData } from '../../types/EpisodeData'
 
-type getEpisodeListData = SetStateAction<EpisodeData[] | undefined>
+type getEpisodeListData = EpisodeData[]
 
 // エピソード一覧
 export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => {
   return client.get('/episodes')
 }
 
-type getEpisodeDetailData = SetStateAction<EpisodeData | undefined>
+type getEpisodeDetailData = {
+  id: number
+  content: string
+}
 
 // エピソード詳細
-export const getEpisodeDetail = (id: number): Promise<AxiosResponse<getEpisodeDetailData>> => {
+export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDetailData>> => {
   return client.get(`/episodes/${id}`)
 }
 
@@ -26,7 +28,7 @@ export const createEpisode = (params: { content: string }) => {
 }
 
 // エピソード更新
-export const updateEpisode = ({ id, params }: { id: string; params: string }) => {
+export const updateEpisode = ({ id, params }: { id: string; params: { content: string } }) => {
   return client.patch(`/episodes/${id}`, params)
 }
 
