@@ -12,7 +12,7 @@ import { Button } from '@mui/material'
 import BaseLayout from '@components/BaseLayout'
 
 // Lib
-import { getEpisodeList } from '@lib/api/episode'
+import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
 
 import type { EpisodeData } from '../types/EpisodeData'
 
@@ -38,6 +38,25 @@ const EpisodeList: VFC = () => {
       })
   }, [])
 
+  const handleEpisodeDelete = async (contents: EpisodeData) => {
+    console.log('click', contents.id)
+
+    try {
+      const response = await deleteEpisode(contents.id)
+      console.log(response.data)
+
+      handleGetEpisodeList()
+        .then(() => {
+          //
+        })
+        .catch(() => {
+          //
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <BaseLayout>
       <h2>EpisodeList</h2>
@@ -52,7 +71,13 @@ const EpisodeList: VFC = () => {
             <Button component={Link} to={`/edit/${id}`}>
               更新
             </Button>
-            <Button>削除</Button>
+            <Button
+              onClick={() => {
+                return handleEpisodeDelete(contents)
+              }}
+            >
+              削除
+            </Button>
           </div>
         )
       })}
