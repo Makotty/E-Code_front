@@ -21,7 +21,7 @@ export const getEpisodeDetail = (id: number): Promise<AxiosResponse<getEpisodeDe
 }
 
 // エピソード新規作成
-export const createEpisode = (params: string) => {
+export const createEpisode = (params: { content: string }) => {
   return client.post('/episodes', params)
 }
 
