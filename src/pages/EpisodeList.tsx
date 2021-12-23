@@ -76,7 +76,7 @@ const EpisodeList: VFC = () => {
             <Link to={`/episode_list/${id}`}>
               <p>{content}</p>
             </Link>
-            <Button component={Link} to={`/edit/${id}`}>
+            <Button component={Link} to={`/episode_edit/${id}`}>
               更新
             </Button>
             <Button

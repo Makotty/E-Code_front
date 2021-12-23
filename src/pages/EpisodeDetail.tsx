@@ -19,10 +19,9 @@ import { getEpisodeDetail } from '@lib/api/episode'
 import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
+  const navigate = useNavigate()
   const [episodeData, setEpisodeData] = useState<EpisodeData | undefined>()
   const query = useParams()
-
-  const navigate = useNavigate()
 
   const handleGetEpisodeDetail = async (data: Readonly<Params<string>>) => {
     const { id } = data

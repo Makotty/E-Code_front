@@ -9,8 +9,9 @@ import { Button } from '@mui/material'
 
 // Components
 import BaseLayout from '@components/BaseLayout'
-import CreateEpisodeArea from '@components/CreateEpisodeArea/indext'
+import EpisodeTextArea from '@components/EpisodeTextArea'
 
+// Lib
 import { createEpisode } from '@lib/api/episode'
 
 const EpisodeCreate: VFC = () => {
@@ -37,7 +38,7 @@ const EpisodeCreate: VFC = () => {
   return (
     <BaseLayout>
       <form>
-        <CreateEpisodeArea onChange={handleChangeCreateArea} />
+        <EpisodeTextArea onChange={handleChangeCreateArea} />
       </form>
       <Button type="submit" variant="contained" onClick={handleSubmit}>
         投稿する
