@@ -5,17 +5,21 @@ import type { VFC } from 'react'
 // React Router
 import { Link } from 'react-router-dom'
 
-import { getEpisodeList } from '@lib/api/episode'
+// Mui
 import { Button } from '@mui/material'
 
-import type { EpisodeDataList } from '../types/EpisodeDataList'
+// Components
+import BaseLayout from '@components/BaseLayout'
+
+// Lib
+import { getEpisodeList } from '@lib/api/episode'
+
+import type { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeList: VFC = () => {
-  const [episodeDataList, setEpisodeDataList] = useState<
-    EpisodeDataList[] | undefined
-  >([])
+  const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
 
-  const handleGetList = async () => {
+  const handleGetEpisodeList = async () => {
     try {
       const response = await getEpisodeList()
       setEpisodeDataList(response.data)
@@ -25,7 +29,7 @@ const EpisodeList: VFC = () => {
   }
 
   useEffect(() => {
-    handleGetList()
+    handleGetEpisodeList()
       .then(() => {
         //
       })
@@ -35,14 +39,14 @@ const EpisodeList: VFC = () => {
   }, [])
 
   return (
-    <>
-      <h1>EpisodeList</h1>
+    <BaseLayout>
+      <h2>EpisodeList</h2>
       <Button>エピソード投稿</Button>
       {episodeDataList?.map((contents) => {
         const { id, content } = contents
         return (
           <div key={id}>
-            <Link to={`/post/${id}`}>
+            <Link to={`/episode_list/${id}`}>
               <p>{content}</p>
             </Link>
             <Button component={Link} to={`/edit/${id}`}>
@@ -52,7 +56,7 @@ const EpisodeList: VFC = () => {
           </div>
         )
       })}
-    </>
+    </BaseLayout>
   )
 }
 
