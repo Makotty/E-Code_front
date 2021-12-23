@@ -19,6 +19,7 @@ import TimeLine from '@pages/TimeLine'
 import EpisodeList from '@pages/EpisodeList'
 import EpisodeDetail from '@pages/EpisodeDetail'
 import EpisodeCreate from '@pages/EpisodeCreate'
+import EpisodeEdit from '@pages/EpisodeEdit'
 
 // Styles
 import theme from '@styles/theme'
@@ -39,6 +40,7 @@ const App: VFC = () => {
               <Route path="/episode_list" element={<EpisodeList />} />
               <Route path="/episode_list/:id" element={<EpisodeDetail />} />
               <Route path="/episode_create" element={<EpisodeCreate />} />
+              <Route path="/episode_edit/:id" element={<EpisodeEdit />} />
             </Routes>
           </BrowserRouter>
         </OAuthContextProvider>
