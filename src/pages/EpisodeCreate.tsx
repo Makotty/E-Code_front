@@ -1,44 +1,47 @@
 // React
-import type { VFC } from 'react'
+import { ChangeEvent, useState, VFC, MouseEvent } from 'react'
 
 // React Router
 import { useNavigate } from 'react-router-dom'
 
-import BaseLayout from '@components/BaseLayout'
-import BaseInput from '@components/BaseInput'
-import { SubmitHandler, useForm } from 'react-hook-form'
+// Mui
 import { Button } from '@mui/material'
+
+// Components
+import BaseLayout from '@components/BaseLayout'
+import CreateEpisodeArea from '@components/CreateEpisodeArea/indext'
+
 import { createEpisode } from '@lib/api/episode'
-import { IFormValues } from '../types/FormValues'
 
 const EpisodeCreate: VFC = () => {
   const navigate = useNavigate()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<IFormValues>()
+  const [episodeValue, setEpisodeValue] = useState('')
 
-  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    const { episode } = data
+  const handleChangeCreateArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setEpisodeValue(event.currentTarget.value)
+  }
+
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
     try {
-      const response = await createEpisode({ content: episode })
+      const response = await createEpisode({ content: episodeValue })
       console.log(response)
       navigate('/episode_list')
     } catch (error) {
       console.log(error)
     }
   }
+
   return (
     <BaseLayout>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.episode?.type === 'required' && <p>エピソードが入力されていません</p>}
-        <BaseInput fieldLabel="Episode" label="episode" register={register} requiredFlag />
-        <Button variant="contained" type="submit" disableElevation>
-          投稿する
-        </Button>
+      <form>
+        <CreateEpisodeArea onChange={handleChangeCreateArea} />
       </form>
+      <Button type="submit" variant="contained" onClick={handleSubmit}>
+        投稿する
+      </Button>
     </BaseLayout>
   )
 }
