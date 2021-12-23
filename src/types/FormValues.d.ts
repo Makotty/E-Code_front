@@ -5,4 +5,6 @@ export type IFormValues = {
   passwordConfirmation: string
   birthDay: string
   fileUrl: string
+
+  episode: string
 }
