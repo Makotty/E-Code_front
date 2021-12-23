@@ -4,19 +4,19 @@ import type { AxiosResponse } from 'axios'
 import client from './client'
 
 // Types
-import type { EpisodeDataList } from '../../types/EpisodeDataList'
+import type { EpisodeData } from '../../types/EpisodeData'
 
-type getEpisodeListProps = SetStateAction<EpisodeDataList[] | undefined>
+type getEpisodeListData = SetStateAction<EpisodeData[] | undefined>
 
 // エピソード一覧
-export const getEpisodeList = (): Promise<
-  AxiosResponse<getEpisodeListProps>
-> => {
+export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => {
   return client.get('/episodes')
 }
 
+type getEpisodeDetailData = SetStateAction<EpisodeData | undefined>
+
 // エピソード詳細
-export const getEpisodeDetail = (id: string) => {
+export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDetailData>> => {
   return client.get(`/episodes/${id}`)
 }
 
@@ -26,13 +26,7 @@ export const createEpisode = (params: string) => {
 }
 
 // エピソード更新
-export const updateEpisode = ({
-  id,
-  params
-}: {
-  id: string
-  params: string
-}) => {
+export const updateEpisode = ({ id, params }: { id: string; params: string }) => {
   return client.patch(`/episodes/${id}`, params)
 }
 
