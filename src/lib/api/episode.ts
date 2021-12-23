@@ -16,7 +16,7 @@ export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => 
 type getEpisodeDetailData = SetStateAction<EpisodeData | undefined>
 
 // エピソード詳細
-export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDetailData>> => {
+export const getEpisodeDetail = (id: number): Promise<AxiosResponse<getEpisodeDetailData>> => {
   return client.get(`/episodes/${id}`)
 }
 
@@ -31,6 +31,6 @@ export const updateEpisode = ({ id, params }: { id: string; params: string }) =>
 }
 
 // エピソード削除
-export const deleteEpisode = (id: string) => {
+export const deleteEpisode = (id: number) => {
   return client.delete(`/episodes/${id}`)
 }
