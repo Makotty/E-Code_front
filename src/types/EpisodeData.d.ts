@@ -1,4 +1,4 @@
-export type EpisodeDataList = {
+export type EpisodeData = {
   id: number
   content: string
 }
