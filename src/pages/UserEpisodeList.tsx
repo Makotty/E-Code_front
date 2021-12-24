@@ -20,7 +20,7 @@ import { OAuthContext } from '@contexts/OAuthContext'
 
 // Lib
 import { deleteEpisode } from '@lib/api/episode'
-import getUserEpisodes from '@lib/api/user'
+import getUserEpisodes from '@lib/api/user_episode'
 
 // Types
 import { EpisodeData } from 'src/types/EpisodeData'
