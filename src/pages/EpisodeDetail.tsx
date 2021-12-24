@@ -20,6 +20,8 @@ import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+
   const [episodeData, setEpisodeData] = useState<EpisodeData | undefined>()
   const query = useParams()
 
@@ -29,11 +31,11 @@ const EpisodeDetail: VFC = () => {
     if (id) {
       try {
         const respone = await getEpisodeDetail(id)
-
-        console.log(respone.data)
         setEpisodeData(respone.data)
       } catch (error) {
-        console.log(error)
+        if (error) {
+          setErrorMessage('何らかのエラーが発生しました')
+        }
       }
     }
   }
@@ -55,6 +57,7 @@ const EpisodeDetail: VFC = () => {
   return (
     <BaseLayout>
       <h2>Episode Detail</h2>
+      {errorMessage && <p>{errorMessage}</p>}
       <div>ID:{episodeData?.id}</div>
       <div>Content:{episodeData?.content}</div>
 

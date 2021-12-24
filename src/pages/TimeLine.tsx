@@ -23,14 +23,14 @@ import BaseLayout from '@components/BaseLayout'
 
 // Lib
 import { corderLogOut } from '@lib/api/auth'
-
-import auth from '../firebase'
+import auth from '@lib/firebase'
 
 const TimeLine: VFC = () => {
-  const { isSignedIn, setIsSignedIn, corderCurrentUser } = useAuthContext()
-  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const { isSignedIn, setIsSignedIn, corderCurrentUser } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
 
   const handleReaderLogout = async () => {
     await signOut(auth)
@@ -57,11 +57,11 @@ const TimeLine: VFC = () => {
         setIsSignedIn(false)
 
         window.location.reload()
-      } else {
-        console.log('ログアウトに失敗しました')
       }
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
 
     navigate('/')

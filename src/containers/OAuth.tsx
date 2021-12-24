@@ -6,7 +6,7 @@ import {
   twitterProvider,
   facebookProvider,
   githubProvider
-} from '../firebase'
+} from '@lib/firebase'
 
 // Google
 export const googleAuth = async () => {

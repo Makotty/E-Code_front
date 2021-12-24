@@ -18,6 +18,8 @@ import { getEpisodeDetail, updateEpisode } from '@lib/api/episode'
 
 const EpisodeEdit: VFC = () => {
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+
   const [episodeDataValue, setEpisodeDataValue] = useState('')
   const query = useParams()
 
@@ -26,10 +28,12 @@ const EpisodeEdit: VFC = () => {
     if (id) {
       try {
         const response = await getEpisodeDetail(id)
-        console.log(response.data)
+
         setEpisodeDataValue(response.data?.content)
       } catch (error) {
-        console.log(error)
+        if (error) {
+          setErrorMessage('何らかのエラーが発生しました')
+        }
       }
     }
   }
@@ -53,20 +57,23 @@ const EpisodeEdit: VFC = () => {
 
     if (query.id) {
       try {
-        const response = await updateEpisode({
+        await updateEpisode({
           id: query.id,
           params: { content: episodeDataValue }
         })
-        console.log(response)
         navigate('/episode_list')
       } catch (error) {
-        console.log(error)
+        if (error) {
+          setErrorMessage('何らかのエラーが発生しました')
+        }
       }
     }
   }
 
   return (
     <BaseLayout>
+      <h2>Episode Edit</h2>
+      {errorMessage && <p>{errorMessage}</p>}
       <form>
         <EpisodeTextArea onChange={handleChangeTextArea} value={episodeDataValue} />
       </form>

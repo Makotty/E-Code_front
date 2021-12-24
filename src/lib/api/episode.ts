@@ -1,4 +1,8 @@
+// Axios
 import type { AxiosResponse } from 'axios'
+
+// Cookies
+import Cookies from 'js-cookie'
 
 import client from './client'
 
@@ -15,6 +19,7 @@ export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => 
 type getEpisodeDetailData = {
   id: number
   content: string
+  userId: number
 }
 
 // エピソード詳細
@@ -24,15 +29,33 @@ export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDe
 
 // エピソード新規作成
 export const createEpisode = (params: { content: string }) => {
-  return client.post('/episodes', params)
+  return client.post('/episodes', params, {
+    headers: {
+      'access-token': Cookies.get('_access_token') ?? '',
+      client: Cookies.get('_client') ?? '',
+      uid: Cookies.get('_uid') ?? ''
+    }
+  })
 }
 
 // エピソード更新
 export const updateEpisode = ({ id, params }: { id: string; params: { content: string } }) => {
-  return client.patch(`/episodes/${id}`, params)
+  return client.patch(`/episodes/${id}`, params, {
+    headers: {
+      'access-token': Cookies.get('_access_token') ?? '',
+      client: Cookies.get('_client') ?? '',
+      uid: Cookies.get('_uid') ?? ''
+    }
+  })
 }
 
 // エピソード削除
 export const deleteEpisode = (id: number) => {
-  return client.delete(`/episodes/${id}`)
+  return client.delete(`/episodes/${id}`, {
+    headers: {
+      'access-token': Cookies.get('_access_token') ?? '',
+      client: Cookies.get('_client') ?? '',
+      uid: Cookies.get('_uid') ?? ''
+    }
+  })
 }

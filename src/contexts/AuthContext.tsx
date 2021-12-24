@@ -20,27 +20,20 @@ type AuthContextProviderProps = {
   children: ReactNode
 }
 
-export const AuthContextProvider: VFC<AuthContextProviderProps> = ({
-  children
-}) => {
+export const AuthContextProvider: VFC<AuthContextProviderProps> = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [corderCurrentUser, setCorderCurrentUser] = useState<
-    CorderUser | undefined
-  >()
+  const [corderCurrentUser, setCorderCurrentUser] = useState<CorderUser | undefined>()
 
   // ログイン済みのユーザーがいるかどうかチェックし、確認できた場合はそのユーザーの情報を取得
   const handleGetCurrentUser = async () => {
     try {
       const response = await getCurrentUser()
-
       if (response?.data.isLogin === true) {
         setIsSignedIn(true)
         setCorderCurrentUser(response?.data.data)
-      } else {
-        // throw new Error(response?.data.message)
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
     }
   }
 

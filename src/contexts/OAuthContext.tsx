@@ -4,7 +4,7 @@ import type { ReactNode, VFC } from 'react'
 // Firebase
 import { onAuthStateChanged } from 'firebase/auth'
 import type { User } from 'firebase/auth'
-import { auth } from '../firebase'
+import { auth } from '@lib/firebase'
 
 type OAuthContextProps = {
   readerCurrentUser: User | null | undefined
@@ -22,12 +22,8 @@ type OAuthContextProviderProps = {
   children: ReactNode
 }
 
-export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({
-  children
-}) => {
-  const [readerCurrentUser, setReaderCurrentUser] = useState<
-    User | null | undefined
-  >(undefined)
+export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({ children }) => {
+  const [readerCurrentUser, setReaderCurrentUser] = useState<User | null | undefined>(undefined)
 
   const value = useMemo(() => {
     return { readerCurrentUser }

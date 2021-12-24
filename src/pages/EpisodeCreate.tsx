@@ -16,6 +16,7 @@ import { createEpisode } from '@lib/api/episode'
 
 const EpisodeCreate: VFC = () => {
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
 
   const [episodeValue, setEpisodeValue] = useState('')
 
@@ -27,16 +28,18 @@ const EpisodeCreate: VFC = () => {
     event.preventDefault()
 
     try {
-      const response = await createEpisode({ content: episodeValue })
-      console.log(response)
+      await createEpisode({ content: episodeValue })
       navigate('/episode_list')
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
   }
 
   return (
     <BaseLayout>
+      {errorMessage && <p>{errorMessage}</p>}
       <form>
         <EpisodeTextArea onChange={handleChangeCreateArea} />
       </form>

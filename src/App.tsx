@@ -23,6 +23,7 @@ import EpisodeEdit from '@pages/EpisodeEdit'
 
 // Styles
 import theme from '@styles/theme'
+import UserEpisodeList from '@pages/UserEpisodeList'
 
 const App: VFC = () => {
   return (
@@ -41,6 +42,7 @@ const App: VFC = () => {
               <Route path="/episode_list/:id" element={<EpisodeDetail />} />
               <Route path="/episode_create" element={<EpisodeCreate />} />
               <Route path="/episode_edit/:id" element={<EpisodeEdit />} />
+              <Route path="/user/episodes" element={<UserEpisodeList />} />
             </Routes>
           </BrowserRouter>
         </OAuthContextProvider>

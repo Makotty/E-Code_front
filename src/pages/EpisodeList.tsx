@@ -1,15 +1,21 @@
 // React
-import { useEffect, useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import type { VFC } from 'react'
 
 // React Router
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // Mui
 import { Button } from '@mui/material'
 
 // Components
 import BaseLayout from '@components/BaseLayout'
+
+// Containers
+import EpisodeListCard from '@containers/EpisodeListCard'
+
+// Contexts
+import { AuthContext } from '@contexts/AuthContext'
 
 // Lib
 import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
@@ -18,6 +24,8 @@ import type { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeList: VFC = () => {
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const { corderCurrentUser } = useContext(AuthContext)
 
   const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
 
@@ -26,7 +34,9 @@ const EpisodeList: VFC = () => {
       const response = await getEpisodeList()
       setEpisodeDataList(response.data)
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
   }
 
@@ -41,11 +51,8 @@ const EpisodeList: VFC = () => {
   }, [])
 
   const handleEpisodeDelete = async (contents: EpisodeData) => {
-    console.log('click', contents.id)
-
     try {
-      const response = await deleteEpisode(contents.id)
-      console.log(response.data)
+      await deleteEpisode(contents.id)
 
       handleGetEpisodeList()
         .then(() => {
@@ -55,13 +62,16 @@ const EpisodeList: VFC = () => {
           //
         })
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
   }
 
   return (
     <BaseLayout>
       <h2>EpisodeList</h2>
+      {errorMessage && <p>{errorMessage}</p>}
       <Button
         onClick={() => {
           return navigate('/episode_create')
@@ -69,26 +79,12 @@ const EpisodeList: VFC = () => {
       >
         Episode Create
       </Button>
-      {episodeDataList?.map((contents) => {
-        const { id, content } = contents
-        return (
-          <div key={id}>
-            <Link to={`/episode_list/${id}`}>
-              <p>{content}</p>
-            </Link>
-            <Button component={Link} to={`/episode_edit/${id}`}>
-              更新
-            </Button>
-            <Button
-              onClick={() => {
-                return handleEpisodeDelete(contents)
-              }}
-            >
-              削除
-            </Button>
-          </div>
-        )
-      })}
+
+      <EpisodeListCard
+        episodeDataList={episodeDataList}
+        handleEpisodeDelete={handleEpisodeDelete}
+        corderCurrentUser={corderCurrentUser}
+      />
     </BaseLayout>
   )
 }
