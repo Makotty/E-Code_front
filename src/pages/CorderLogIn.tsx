@@ -1,4 +1,5 @@
 // React
+import { useState } from 'react'
 import type { VFC } from 'react'
 
 // React Router
@@ -32,10 +33,11 @@ import { corderLogIn } from '@lib/api/auth'
 import { IFormValues } from '../types/FormValues'
 
 const CorderLogIn: VFC = () => {
-  const { corderCurrentUser, setCorderCurrentUser, setIsSignedIn } =
-    useAuthContext()
-  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const { corderCurrentUser, setCorderCurrentUser, setIsSignedIn } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
 
   const {
     register,
@@ -53,7 +55,6 @@ const CorderLogIn: VFC = () => {
 
     try {
       const response = await corderLogIn(params)
-      console.log(response)
 
       if (response.status === 200) {
         // ログインに成功したらCookieを格納
@@ -65,10 +66,11 @@ const CorderLogIn: VFC = () => {
         setCorderCurrentUser(response.data.data)
 
         navigate('/timeline')
-        console.log('ログインできました')
       }
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
   }
 
@@ -79,10 +81,9 @@ const CorderLogIn: VFC = () => {
   return (
     <BaseLayout>
       <h2>ログイン画面(Corder)</h2>
+      {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.email?.type === 'required' && (
-          <p>メールアドレスが入力されていません</p>
-        )}
+        {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
         <BaseInput
           fieldLabel="email"
           placeholder="example@example.com"
@@ -90,9 +91,7 @@ const CorderLogIn: VFC = () => {
           register={register}
           requiredFlag
         />
-        {errors.password?.type === 'required' && (
-          <p>パスワードが入力されていません</p>
-        )}
+        {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
         <BaseInput
           fieldLabel="password"
           type="password"

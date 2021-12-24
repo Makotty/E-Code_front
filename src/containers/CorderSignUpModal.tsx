@@ -1,4 +1,5 @@
 // React
+import { useState } from 'react'
 import type { VFC, MouseEvent } from 'react'
 
 // React Router
@@ -42,6 +43,9 @@ type CreateAccountModalProps = {
 }
 
 const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
+  const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+
   const {
     showFlag,
     userName,
@@ -55,7 +59,6 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
   } = props
 
   const { setIsSignedIn, setCorderCurrentUser } = useAuthContext()
-  const navigate = useNavigate()
 
   const modalFileUrl = imageUrl
   const modalUserName = userName
@@ -67,8 +70,7 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
   const { register, handleSubmit } = useForm<IFormValues>()
 
   const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    const { name, email, password, passwordConfirmation, birthDay, fileUrl } =
-      data
+    const { name, email, password, passwordConfirmation, birthDay, fileUrl } = data
 
     const params: CorderSignUpParams = {
       name,
@@ -81,7 +83,6 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
 
     try {
       const response = await corderSignUp(params)
-      console.log(response)
 
       if (response.status === 200) {
         // アカウント作成に成功したらCookieを格納
@@ -93,27 +94,25 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
         setCorderCurrentUser(response.data.data)
 
         navigate('/timeline')
-        console.log('アカウント作成できました')
       }
     } catch (error) {
-      console.log(error)
+      if (error) {
+        setErrorMessage('何らかのエラーが発生しました')
+      }
     }
   }
 
   return (
     <BaseModal showFlag={showFlag}>
       <h2>確認画面</h2>
+      {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <p>{modalUserEmail}</p>
         </div>
 
         <div>
-          <Avatar
-            src={imagePath}
-            alt="アカウントアイコン"
-            sx={{ width: 64, height: 64 }}
-          />
+          <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 64, height: 64 }} />
         </div>
         <div>
           <p>{modalUserName}</p>
@@ -123,31 +122,11 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
           <p>{modalUserBirthDay}</p>
         </div>
 
-        <input
-          type="hidden"
-          {...register('email')}
-          defaultValue={modalUserEmail}
-        />
-        <input
-          type="hidden"
-          {...register('fileUrl')}
-          defaultValue={modalFileUrl}
-        />
-        <input
-          type="hidden"
-          {...register('name')}
-          defaultValue={modalUserName}
-        />
-        <input
-          type="hidden"
-          {...register('birthDay')}
-          defaultValue={modalUserBirthDay}
-        />
-        <input
-          type="hidden"
-          {...register('password')}
-          defaultValue={modalUserPassword}
-        />
+        <input type="hidden" {...register('email')} defaultValue={modalUserEmail} />
+        <input type="hidden" {...register('fileUrl')} defaultValue={modalFileUrl} />
+        <input type="hidden" {...register('name')} defaultValue={modalUserName} />
+        <input type="hidden" {...register('birthDay')} defaultValue={modalUserBirthDay} />
+        <input type="hidden" {...register('password')} defaultValue={modalUserPassword} />
         <input
           type="hidden"
           {...register('passwordConfirmation')}
