@@ -28,21 +28,17 @@ import BaseInput from '@components/BaseInput'
 import BaseOAuthButton from '@components/BaseOAuthButton'
 
 // Containers
-import {
-  googleAuth,
-  twitterAuth,
-  facebookAuth,
-  githubAuth
-} from '@containers/OAuth'
+import { googleAuth, twitterAuth, facebookAuth, githubAuth } from '@containers/OAuth'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
 
+// Lib
+import { auth } from '@lib/firebase'
+
 // Types
 import { IFormValues } from '../types/FormValues'
-
-import { auth } from '../firebase'
 
 const ReaderSignUp: VFC = () => {
   const { corderCurrentUser } = useAuthContext()
@@ -82,9 +78,7 @@ const ReaderSignUp: VFC = () => {
       <h2>サインアップ(Reader)</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.email?.type === 'required' && (
-          <p>メールアドレスが入力されていません</p>
-        )}
+        {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
         <BaseInput
           fieldLabel="email"
           placeholder="example@example.com"
@@ -92,9 +86,7 @@ const ReaderSignUp: VFC = () => {
           register={register}
           requiredFlag
         />
-        {errors.password?.type === 'required' && (
-          <p>パスワードが入力されていません</p>
-        )}
+        {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
         <BaseInput
           fieldLabel="password"
           type="password"

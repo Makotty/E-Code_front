@@ -23,8 +23,7 @@ import BaseLayout from '@components/BaseLayout'
 
 // Lib
 import { corderLogOut } from '@lib/api/auth'
-
-import auth from '../firebase'
+import auth from '@lib/firebase'
 
 const TimeLine: VFC = () => {
   const navigate = useNavigate()
