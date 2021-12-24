@@ -16,10 +16,11 @@ import ReaderLogin from '@pages/ReaderLogin'
 import ReaderSignUp from '@pages/ReaderSignUp'
 import TimeLine from '@pages/TimeLine'
 
-import EpisodeList from '@pages/EpisodeList'
 import EpisodeDetail from '@pages/EpisodeDetail'
 import EpisodeCreate from '@pages/EpisodeCreate'
 import EpisodeEdit from '@pages/EpisodeEdit'
+import EpisodeList1 from '@pages/EpisodeList1'
+import EpisodeList2 from '@pages/EpisodeList2'
 
 // Styles
 import theme from '@styles/theme'
@@ -38,7 +39,8 @@ const App: VFC = () => {
               <Route path="/corder_signup" element={<CorderSignUp />} />
               <Route path="/corder_login" element={<CorderLogin />} />
               <Route path="/timeline" element={<TimeLine />} />
-              <Route path="/episode_list" element={<EpisodeList />} />
+              <Route path="/episode_list/1" element={<EpisodeList1 />} />
+              <Route path="/episode_list/2" element={<EpisodeList2 />} />
               <Route path="/episode_list/:id" element={<EpisodeDetail />} />
               <Route path="/episode_create" element={<EpisodeCreate />} />
               <Route path="/episode_edit/:id" element={<EpisodeEdit />} />
