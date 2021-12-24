@@ -3,5 +3,11 @@ export type EpisodeData = {
   content: string
   contributorName: string
   contributorImage: string
+  episodeComments: Array<EpisodeCommentsData> | null
   userId: number
+}
+
+export type EpisodeCommentsData = {
+  id: number
+  content: string
 }
