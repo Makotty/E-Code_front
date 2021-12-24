@@ -22,7 +22,7 @@ import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
 
 import type { EpisodeData } from '../types/EpisodeData'
 
-const EpisodeList: VFC = () => {
+const EpisodeList2: VFC = () => {
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
   const { corderCurrentUser } = useContext(AuthContext)
@@ -30,14 +30,15 @@ const EpisodeList: VFC = () => {
   const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
 
   const handleGetEpisodeList = async () => {
-    try {
-      const response = await getEpisodeList()
-      setEpisodeDataList(response.data)
-    } catch (error) {
-      if (error) {
-        setErrorMessage('何らかのエラーが発生しました')
-      }
-    }
+    await getEpisodeList()
+      .then((response) => {
+        setEpisodeDataList(response.data)
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('エピソードを取得できませんでした。')
+        }
+      })
   }
 
   useEffect(() => {
@@ -51,21 +52,23 @@ const EpisodeList: VFC = () => {
   }, [])
 
   const handleEpisodeDelete = async (contents: EpisodeData) => {
-    try {
-      await deleteEpisode(contents.id)
-
-      handleGetEpisodeList()
-        .then(() => {
-          //
-        })
-        .catch(() => {
-          //
-        })
-    } catch (error) {
-      if (error) {
-        setErrorMessage('何らかのエラーが発生しました')
-      }
-    }
+    await deleteEpisode(contents.id)
+      .then(() => {
+        handleGetEpisodeList()
+          .then(() => {
+            //
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorMessage('エピソードを取得できませんでした')
+            }
+          })
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('このエピソードは消すことができなかったみたいです。')
+        }
+      })
   }
 
   return (
@@ -84,9 +87,11 @@ const EpisodeList: VFC = () => {
         episodeDataList={episodeDataList}
         handleEpisodeDelete={handleEpisodeDelete}
         corderCurrentUser={corderCurrentUser}
+        sliceStartNumber={-50}
+        sliceEndNumber={-100}
       />
     </BaseLayout>
   )
 }
 
-export default EpisodeList
+export default EpisodeList2

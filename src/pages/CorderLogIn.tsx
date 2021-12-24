@@ -53,25 +53,24 @@ const CorderLogIn: VFC = () => {
       password
     }
 
-    try {
-      const response = await corderLogIn(params)
+    await corderLogIn(params)
+      .then((response) => {
+        const { status, headers } = response
+        if (status === 200) {
+          Cookies.set('_access_token', headers['access-token'])
+          Cookies.set('_client', headers.client)
+          Cookies.set('_uid', headers.uid)
 
-      if (response.status === 200) {
-        // ログインに成功したらCookieを格納
-        Cookies.set('_access_token', response.headers['access-token'])
-        Cookies.set('_client', response.headers.client)
-        Cookies.set('_uid', response.headers.uid)
-
-        setIsSignedIn(true)
-        setCorderCurrentUser(response.data.data)
-
-        navigate('/timeline')
-      }
-    } catch (error) {
-      if (error) {
-        setErrorMessage('何らかのエラーが発生しました')
-      }
-    }
+          setIsSignedIn(true)
+          setCorderCurrentUser(response.data.data)
+          navigate('/timeline')
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('何らかのエラーが発生しました')
+        }
+      })
   }
 
   if (corderCurrentUser || readerCurrentUser) {

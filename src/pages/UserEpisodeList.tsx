@@ -20,7 +20,7 @@ import { OAuthContext } from '@contexts/OAuthContext'
 
 // Lib
 import { deleteEpisode } from '@lib/api/episode'
-import getUserEpisodes from '@lib/api/user'
+import getUserEpisodes from '@lib/api/user_episode'
 
 // Types
 import { EpisodeData } from 'src/types/EpisodeData'
@@ -48,21 +48,23 @@ const UserEpisodeList: VFC = () => {
 
   const handleEpisodeDelete = useMemo(() => {
     return async (contents: EpisodeData) => {
-      try {
-        await deleteEpisode(contents.id)
-
-        handleGetUserEpisodes()
-          .then(() => {
-            //
-          })
-          .catch(() => {
-            //
-          })
-      } catch (error) {
-        if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
-        }
-      }
+      await deleteEpisode(contents.id)
+        .then(() => {
+          handleGetUserEpisodes()
+            .then(() => {
+              //
+            })
+            .catch((error) => {
+              if (error) {
+                setErrorMessage('エピソードを取得できませんでした')
+              }
+            })
+        })
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('このエピソードは消すことができなかったみたいです。')
+          }
+        })
     }
   }, [handleGetUserEpisodes])
 
@@ -105,7 +107,7 @@ const UserEpisodeList: VFC = () => {
         variant="contained"
         color="primary"
         onClick={() => {
-          return navigate('/episode_list')
+          return navigate('/timeline')
         }}
       >
         戻る
