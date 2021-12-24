@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { VFC } from 'react'
 
 // React Router
@@ -21,9 +21,16 @@ import { useOAuthContext } from '@contexts/OAuthContext'
 // Components
 import BaseLayout from '@components/BaseLayout'
 
+// Containers
+import EpisodeListCard from '@containers/EpisodeListCard'
+
 // Lib
 import { corderLogOut } from '@lib/api/auth'
 import auth from '@lib/firebase'
+import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
+
+// Types
+import { EpisodeData } from '../types/EpisodeData'
 
 const TimeLine: VFC = () => {
   const navigate = useNavigate()
@@ -67,6 +74,50 @@ const TimeLine: VFC = () => {
     navigate('/')
   }
 
+  const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
+
+  const handleGetEpisodeList = async () => {
+    await getEpisodeList()
+      .then((response) => {
+        setEpisodeDataList(response.data)
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('エピソードを取得できませんでした。')
+        }
+      })
+  }
+
+  useEffect(() => {
+    handleGetEpisodeList()
+      .then(() => {
+        //
+      })
+      .catch(() => {
+        //
+      })
+  }, [])
+
+  const handleEpisodeDelete = async (contents: EpisodeData) => {
+    await deleteEpisode(contents.id)
+      .then(() => {
+        handleGetEpisodeList()
+          .then(() => {
+            //
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorMessage('エピソードを取得できませんでした')
+            }
+          })
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('このエピソードは消すことができなかったみたいです。')
+        }
+      })
+  }
+
   if (!corderCurrentUser && !readerCurrentUser) {
     return <Navigate to="/" />
   }
@@ -94,6 +145,13 @@ const TimeLine: VFC = () => {
           <Button onClick={handleCorderSignOut}>ログアウト(Corder)</Button>
         </>
       )}
+
+      <EpisodeListCard
+        episodeDataList={episodeDataList}
+        handleEpisodeDelete={handleEpisodeDelete}
+        corderCurrentUser={corderCurrentUser}
+        sliceStartNumber={-50}
+      />
     </BaseLayout>
   )
 }
