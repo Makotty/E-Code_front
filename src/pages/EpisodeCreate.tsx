@@ -32,14 +32,15 @@ const EpisodeCreate: VFC = () => {
     event.preventDefault()
 
     if (contributorName && contributorImage) {
-      try {
-        await createEpisode({ content: episodeValue, contributorName, contributorImage })
-        navigate('/episode_list')
-      } catch (error) {
-        if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
-        }
-      }
+      await createEpisode({ content: episodeValue, contributorName, contributorImage })
+        .then(() => {
+          navigate('/episode_list')
+        })
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('何らかのエラーが発生しました')
+          }
+        })
     }
   }
 

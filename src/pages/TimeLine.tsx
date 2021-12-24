@@ -52,24 +52,22 @@ const TimeLine: VFC = () => {
   }
 
   const handleCorderSignOut = async () => {
-    try {
-      const response = await corderLogOut()
-
-      if (response.data.success === true) {
-        // ログアウト出来たらCookieを削除
-        Cookies.remove('_access_token')
-        Cookies.remove('_client')
-        Cookies.remove('_uid')
-
-        setIsSignedIn(false)
-
-        window.location.reload()
-      }
-    } catch (error) {
-      if (error) {
-        setErrorMessage('何らかのエラーが発生しました')
-      }
-    }
+    await corderLogOut()
+      .then((response) => {
+        if (response.data.success === true) {
+          // ログアウト出来たらCookieを削除
+          Cookies.remove('_access_token')
+          Cookies.remove('_client')
+          Cookies.remove('_uid')
+          setIsSignedIn(false)
+          window.location.reload()
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('何らかのエラーが発生しました')
+        }
+      })
 
     navigate('/')
   }

@@ -26,15 +26,15 @@ const EpisodeEdit: VFC = () => {
   const handleGetEpisodeData = async (data: Readonly<Params<string>>) => {
     const { id } = data
     if (id) {
-      try {
-        const response = await getEpisodeDetail(id)
-
-        setEpisodeDataValue(response.data?.content)
-      } catch (error) {
-        if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
-        }
-      }
+      await getEpisodeDetail(id)
+        .then((response) => {
+          setEpisodeDataValue(response.data.content)
+        })
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('エピソードを取得できませんでした。')
+          }
+        })
     }
   }
 
@@ -56,17 +56,18 @@ const EpisodeEdit: VFC = () => {
     event.preventDefault()
 
     if (query.id) {
-      try {
-        await updateEpisode({
-          id: query.id,
-          params: { content: episodeDataValue }
+      await updateEpisode({
+        id: query.id,
+        params: { content: episodeDataValue }
+      })
+        .then(() => {
+          navigate('/episode_list')
         })
-        navigate('/episode_list')
-      } catch (error) {
-        if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
-        }
-      }
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('何らかのエラーが発生しました')
+          }
+        })
     }
   }
 

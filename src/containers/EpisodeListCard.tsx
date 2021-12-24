@@ -17,14 +17,23 @@ type EpisodeListCardProps = {
   episodeDataList: EpisodeData[] | undefined
   handleEpisodeDelete: (contents: EpisodeData) => Promise<void>
   corderCurrentUser: CorderUser | undefined
+
+  sliceStartNumber?: number | undefined
+  sliceEndNumber?: number | undefined
 }
 
 const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
-  const { episodeDataList, handleEpisodeDelete, corderCurrentUser } = props
+  const {
+    episodeDataList,
+    handleEpisodeDelete,
+    corderCurrentUser,
+    sliceStartNumber,
+    sliceEndNumber
+  } = props
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
-      {episodeDataList?.map((contents: EpisodeData) => {
+      {episodeDataList?.slice(sliceStartNumber, sliceEndNumber).map((contents: EpisodeData) => {
         const { id, content, contributorName, contributorImage, userId, episodeComments } = contents
 
         return (
