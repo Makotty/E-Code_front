@@ -19,6 +19,8 @@ export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => 
 type getEpisodeDetailData = {
   id: number
   content: string
+  contributorName: string
+  contributorImage: string
   userId: number
 }
 
@@ -28,7 +30,11 @@ export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDe
 }
 
 // エピソード新規作成
-export const createEpisode = (params: { content: string }) => {
+export const createEpisode = (params: {
+  content: string
+  contributorName: string
+  contributorImage: string
+}) => {
   return client.post('/episodes', params, {
     headers: {
       'access-token': Cookies.get('_access_token') ?? '',
