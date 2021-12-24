@@ -1,7 +1,16 @@
-import { CorderUser } from '@interfaces/index'
-import { Button, Paper, Stack } from '@mui/material'
+// React
 import type { VFC } from 'react'
+
+// React Router
 import { Link } from 'react-router-dom'
+
+// Mui
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button } from '@mui/material'
+
+// Interfaces
+import { CorderUser } from '@interfaces/index'
+
+// Types
 import { EpisodeData } from '../types/EpisodeData'
 
 type EpisodeListCardProps = {
@@ -15,11 +24,20 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
-      <Stack spacing={3}>
-        {episodeDataList?.map((contents: EpisodeData) => {
-          const { id, content, userId } = contents
-          return (
-            <Paper key={id}>
+      {episodeDataList?.map((contents: EpisodeData) => {
+        const { id, content, contributorName, contributorImage, userId } = contents
+        return (
+          <Accordion key={id}>
+            <AccordionSummary>
+              <h3>{contributorName}</h3>
+              <Avatar
+                src={contributorImage}
+                alt="アカウントアイコン"
+                sx={{ width: 64, height: 64 }}
+              />
+            </AccordionSummary>
+
+            <AccordionDetails>
               <Link to={`/episode_list/${id}`}>
                 <p>{content}</p>
               </Link>
@@ -41,10 +59,10 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
               ) : (
                 <Button disabled>削除</Button>
               )}
-            </Paper>
-          )
-        })}
-      </Stack>
+            </AccordionDetails>
+          </Accordion>
+        )
+      })}
     </div>
   )
 }
