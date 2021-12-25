@@ -63,7 +63,7 @@ const EpisodeEdit: VFC = () => {
         params: { content: episodeDataValue }
       })
         .then(() => {
-          navigate('/episode_list')
+          navigate('/timeline')
         })
         .catch((error) => {
           if (error) {
