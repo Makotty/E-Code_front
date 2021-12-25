@@ -12,7 +12,7 @@ const BaseHeader: VFC<BaseHeaderProps> = (props) => {
   const { children } = props
   return (
     <ECodeAppBar>
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <AppBarBox>
           <AppBarLogo>
             <img src={eCodeLogo} alt="E-Codeのロゴ" />
