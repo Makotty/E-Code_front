@@ -9,17 +9,21 @@ import type { Params } from 'react-router-dom'
 // Mui
 import { Avatar, Button, Paper } from '@mui/material'
 
+// Components
+import EpisodeTextArea from '@components/EpisodeTextArea'
+
 // Containers
 import Layout from '@containers/Layout'
 
+// Contexts
+import { useAuthContext } from '@contexts/AuthContext'
+
 // Lib
 import { getEpisodeDetail } from '@lib/api/episode'
+import createEpisodeComment from '@lib/api/episode_comment'
 
 // Types
-import createEpisodeComment from '@lib/api/episode_comment'
-import EpisodeTextArea from '@components/EpisodeTextArea'
-import { useAuthContext } from '@contexts/AuthContext'
-import { useOAuthContext } from '@contexts/OAuthContext'
+
 import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
@@ -32,6 +36,10 @@ const EpisodeDetail: VFC = () => {
   const [episodeId, setEpisodeId] = useState<number>(0)
 
   const [episodeData, setEpisodeData] = useState<EpisodeData | undefined>()
+
+  const contributorName = corderCurrentUser?.name
+  const contributorImage = corderCurrentUser?.fileUrl
+
   const query = useParams()
 
   const handleGetEpisodeDetail = async (data: Readonly<Params<string>>) => {
@@ -58,15 +66,22 @@ const EpisodeDetail: VFC = () => {
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
-    await createEpisodeComment({ content: episodeCommentValue, episodeId })
-      .then(() => {
-        window.location.reload()
+    if (contributorName && contributorImage) {
+      await createEpisodeComment({
+        content: episodeCommentValue,
+        episodeId,
+        contributorName,
+        contributorImage
       })
-      .catch((error) => {
-        if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
-        }
-      })
+        .then(() => {
+          window.location.reload()
+        })
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('何らかのエラーが発生しました')
+          }
+        })
+    }
   }
 
   useEffect(() => {
@@ -117,8 +132,16 @@ const EpisodeDetail: VFC = () => {
 
         {episodeData?.episodeComments &&
           episodeData?.episodeComments.map((data) => {
-            const { id, content } = data
-            return <p key={id}>{content}</p>
+            const date = data.createdAt.replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
+
+            return (
+              <div key={data.id}>
+                <Avatar src={data.contributorImage} alt="コメント投稿者のアバター" />
+                <p>{data.contributorName}</p>
+                <p>{data.content}</p>
+                <p>{date}</p>
+              </div>
+            )
           })}
 
         <Button onClick={handleBack}>戻る</Button>
