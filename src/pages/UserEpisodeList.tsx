@@ -7,11 +7,9 @@ import { Navigate, useNavigate } from 'react-router-dom'
 
 // Mui
 import { Button } from '@mui/material'
-
-// Components
-import BaseLayout from '@components/BaseLayout'
-
 // Containers
+import Layout from '@containers/Layout'
+
 import EpisodeListCard from '@containers/EpisodeListCard'
 
 // Contexts
@@ -100,7 +98,7 @@ const UserEpisodeList: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <h1>{corderCurrentUser?.name}の投稿一覧</h1>
       {errorMessage && <p>{errorMessage}</p>}
       <Button
@@ -113,7 +111,7 @@ const UserEpisodeList: VFC = () => {
         戻る
       </Button>
       <UserEpisodeCard />
-    </BaseLayout>
+    </Layout>
   )
 }
 

@@ -10,8 +10,10 @@ import type { Params } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
 import EpisodeTextArea from '@components/EpisodeTextArea'
+
+// Containers
+import Layout from '@containers/Layout'
 
 // Lib
 import { getEpisodeDetail, updateEpisode } from '@lib/api/episode'
@@ -61,7 +63,7 @@ const EpisodeEdit: VFC = () => {
         params: { content: episodeDataValue }
       })
         .then(() => {
-          navigate('/episode_list')
+          navigate('/timeline')
         })
         .catch((error) => {
           if (error) {
@@ -72,7 +74,7 @@ const EpisodeEdit: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <h2>Episode Edit</h2>
       {errorMessage && <p>{errorMessage}</p>}
       <form>
@@ -81,7 +83,7 @@ const EpisodeEdit: VFC = () => {
       <Button type="submit" variant="contained" onClick={handleSubmit}>
         投稿する
       </Button>
-    </BaseLayout>
+    </Layout>
   )
 }
 

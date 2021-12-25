@@ -18,11 +18,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { Avatar, Button, Stack } from '@mui/material'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
 import BaseInput from '@components/BaseInput'
 import BaseUpLoadImgButton from '@components/BaseUpLoadImgButton'
 
 // Containers
+import Layout from '@containers/Layout'
 import CorderSignUpModal from '@containers/CorderSignUpModal'
 
 // Contexts
@@ -126,39 +126,22 @@ const CorderSignUp: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <h2>サインアップ画面(Corder)</h2>
-      <div>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      </div>
+      <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Avatar
-            src={imagePath}
-            alt="アカウントアイコン"
-            sx={{ width: 64, height: 64 }}
-          />
+          <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 64, height: 64 }} />
           <div>
-            <BaseUpLoadImgButton
-              label="userImg"
-              onChange={imageChange}
-              disableElevation
-            >
+            <BaseUpLoadImgButton label="userImg" onChange={imageChange} disableElevation>
               アップロード
             </BaseUpLoadImgButton>
           </div>
         </div>
         <Stack spacing={3}>
           {errors.name?.type === 'required' && <p>名前が入力されていません</p>}
-          <BaseInput
-            fieldLabel="name"
-            label="name"
-            register={register}
-            requiredFlag
-          />
-          {errors.birthDay?.type === 'required' && (
-            <p>誕生日が入力されていません</p>
-          )}
+          <BaseInput fieldLabel="name" label="name" register={register} requiredFlag />
+          {errors.birthDay?.type === 'required' && <p>誕生日が入力されていません</p>}
           <BaseInput
             type="date"
             label="birthDay"
@@ -167,9 +150,7 @@ const CorderSignUp: VFC = () => {
             requiredFlag
             defaultValue="2000-01-01"
           />
-          {errors.email?.type === 'required' && (
-            <p>メールアドレスが入力されていません</p>
-          )}
+          {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
           <BaseInput
             fieldLabel="email"
             placeholder="example@example.com"
@@ -177,9 +158,7 @@ const CorderSignUp: VFC = () => {
             register={register}
             requiredFlag
           />
-          {errors.password?.type === 'required' && (
-            <p>パスワードが入力されていません</p>
-          )}
+          {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
           <BaseInput
             fieldLabel="password"
             type="password"
@@ -217,7 +196,7 @@ const CorderSignUp: VFC = () => {
         showFlag={showModal}
         onClick={closeModal}
       />
-    </BaseLayout>
+    </Layout>
   )
 }
 

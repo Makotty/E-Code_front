@@ -7,11 +7,14 @@ import { Link } from 'react-router-dom'
 // Mui
 import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button } from '@mui/material'
 
+// Containers
+import EpisodeComments from '@containers/EpisodeComments'
+
 // Interfaces
 import { CorderUser } from '@interfaces/index'
 
 // Types
-import { EpisodeCommentsData, EpisodeData } from '../types/EpisodeData'
+import { EpisodeData } from '../types/EpisodeData'
 
 type EpisodeListCardProps = {
   episodeDataList: EpisodeData[] | undefined
@@ -48,14 +51,11 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
             </AccordionSummary>
 
             <AccordionDetails>
-              <Link to={`/episode_list/${id}`}>
+              <Link to={`/episode_detail/${id}`}>
                 <p>{content}</p>
               </Link>
 
-              {episodeComments &&
-                episodeComments.slice(-5).map((data: EpisodeCommentsData) => {
-                  return <p key={data.id}>{data.content}</p>
-                })}
+              <EpisodeComments episodeComments={episodeComments} />
 
               {corderCurrentUser?.id === userId ? (
                 <Button component={Link} to={`/episode_edit/${id}`}>
@@ -64,6 +64,7 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
               ) : (
                 <Button disabled>更新</Button>
               )}
+
               {corderCurrentUser?.id === userId ? (
                 <Button
                   onClick={() => {
