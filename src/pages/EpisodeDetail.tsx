@@ -9,8 +9,8 @@ import type { Params } from 'react-router-dom'
 // Mui
 import { Avatar, Button, Paper } from '@mui/material'
 
-// Components
-import BaseLayout from '@components/BaseLayout'
+// Containers
+import Layout from '@containers/Layout'
 
 // Lib
 import { getEpisodeDetail } from '@lib/api/episode'
@@ -18,11 +18,15 @@ import { getEpisodeDetail } from '@lib/api/episode'
 // Types
 import createEpisodeComment from '@lib/api/episode_comment'
 import EpisodeTextArea from '@components/EpisodeTextArea'
+import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const { corderCurrentUser } = useAuthContext()
 
   const [episodeCommentValue, setEpisodeCommentValue] = useState('')
   const [episodeId, setEpisodeId] = useState<number>(0)
@@ -88,7 +92,7 @@ const EpisodeDetail: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <Paper>
         <h2>Episode Detail</h2>
         {errorMessage && <p>{errorMessage}</p>}
@@ -100,12 +104,16 @@ const EpisodeDetail: VFC = () => {
         <p>{episodeData?.contributorName}</p>
         <div id="episodeContent" />
 
-        <form>
-          <EpisodeTextArea onChange={handleChangeCreateArea} />
-        </form>
-        <Button type="submit" variant="contained" onClick={handleSubmit}>
-          投稿する
-        </Button>
+        {corderCurrentUser && (
+          <>
+            <form>
+              <EpisodeTextArea onChange={handleChangeCreateArea} />
+            </form>
+            <Button type="submit" variant="contained" onClick={handleSubmit}>
+              投稿する
+            </Button>
+          </>
+        )}
 
         {episodeData?.episodeComments &&
           episodeData?.episodeComments.map((data) => {
@@ -115,7 +123,7 @@ const EpisodeDetail: VFC = () => {
 
         <Button onClick={handleBack}>戻る</Button>
       </Paper>
-    </BaseLayout>
+    </Layout>
   )
 }
 
