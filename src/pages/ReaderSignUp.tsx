@@ -23,11 +23,11 @@ import facebookIcon from '@images/facebook-icon.svg'
 import githubIcon from '@images/github-icon.svg'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
 import BaseInput from '@components/BaseInput'
 import BaseOAuthButton from '@components/BaseOAuthButton'
 
 // Containers
+import Layout from '@containers/Layout'
 import { googleAuth, twitterAuth, facebookAuth, githubAuth } from '@containers/OAuth'
 
 // Contexts
@@ -74,7 +74,7 @@ const ReaderSignUp: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <h2>サインアップ(Reader)</h2>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -121,7 +121,7 @@ const ReaderSignUp: VFC = () => {
         oAuthIcon={githubIcon}
         oAuthAlt="GitHubのアイコン"
       />
-    </BaseLayout>
+    </Layout>
   )
 }
 

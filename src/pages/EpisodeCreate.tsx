@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
 import EpisodeTextArea from '@components/EpisodeTextArea'
+
+// Containers
+import Layout from '@containers/Layout'
 
 // Lib
 import { createEpisode } from '@lib/api/episode'
@@ -34,7 +36,7 @@ const EpisodeCreate: VFC = () => {
     if (contributorName && contributorImage) {
       await createEpisode({ content: episodeValue, contributorName, contributorImage })
         .then(() => {
-          navigate('/episode_list')
+          navigate('/timeline')
         })
         .catch((error) => {
           if (error) {
@@ -45,7 +47,7 @@ const EpisodeCreate: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       {errorMessage && <p>{errorMessage}</p>}
       <form>
         <EpisodeTextArea onChange={handleChangeCreateArea} />
@@ -53,7 +55,7 @@ const EpisodeCreate: VFC = () => {
       <Button type="submit" variant="contained" onClick={handleSubmit}>
         投稿する
       </Button>
-    </BaseLayout>
+    </Layout>
   )
 }
 

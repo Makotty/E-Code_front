@@ -16,8 +16,10 @@ import { Button } from '@mui/material'
 import Cookies from 'js-cookie'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
 import BaseInput from '@components/BaseInput'
+
+// Containers
+import Layout from '@containers/Layout'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
@@ -78,7 +80,7 @@ const CorderLogIn: VFC = () => {
   }
 
   return (
-    <BaseLayout>
+    <Layout>
       <h2>ログイン画面(Corder)</h2>
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +107,7 @@ const CorderLogIn: VFC = () => {
       <div>
         ユーザ登録は<Link to="/corder_signup">こちら</Link>から
       </div>
-    </BaseLayout>
+    </Layout>
   )
 }
 

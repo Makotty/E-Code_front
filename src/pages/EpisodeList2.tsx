@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 // Components
-import BaseLayout from '@components/BaseLayout'
+import Layout from '@containers/Layout'
 
 // Containers
 import EpisodeListCard from '@containers/EpisodeListCard'
@@ -20,10 +20,10 @@ import { AuthContext } from '@contexts/AuthContext'
 // Lib
 import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
 
+import EpisodeCreateButton from '@containers/EpisodeCreateButton'
 import type { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeList2: VFC = () => {
-  const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
   const { corderCurrentUser } = useContext(AuthContext)
 
@@ -72,16 +72,10 @@ const EpisodeList2: VFC = () => {
   }
 
   return (
-    <BaseLayout>
-      <h2>EpisodeList</h2>
+    <Layout>
       {errorMessage && <p>{errorMessage}</p>}
-      <Button
-        onClick={() => {
-          return navigate('/episode_create')
-        }}
-      >
-        Episode Create
-      </Button>
+
+      <EpisodeCreateButton />
 
       <EpisodeListCard
         episodeDataList={episodeDataList}
@@ -90,7 +84,7 @@ const EpisodeList2: VFC = () => {
         sliceStartNumber={-50}
         sliceEndNumber={-100}
       />
-    </BaseLayout>
+    </Layout>
   )
 }
 
