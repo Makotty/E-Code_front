@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 import client from './client'
 
 // Types
-import type { EpisodeCommentsData, EpisodeData } from '../../types/EpisodeData'
+import type { EpisodeCommentData, EpisodeData } from '../../types/EpisodeData'
 
 type getEpisodeListData = EpisodeData[]
 
@@ -21,7 +21,7 @@ type getEpisodeDetailData = {
   content: string
   contributorName: string
   contributorImage: string
-  episodeComments: Array<EpisodeCommentsData> | null
+  episodeComments: Array<EpisodeCommentData> | null
   userId: number
 }
 
