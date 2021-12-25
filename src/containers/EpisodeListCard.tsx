@@ -51,7 +51,7 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
             </AccordionSummary>
 
             <AccordionDetails>
-              <Link to={`/episode_list/${id}`}>
+              <Link to={`/episode_detail/${id}`}>
                 <p>{content}</p>
               </Link>
 
