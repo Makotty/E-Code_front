@@ -41,7 +41,7 @@ const App: VFC = () => {
               <Route path="/timeline" element={<TimeLine />} />
               <Route path="/episode_list/1" element={<EpisodeList1 />} />
               <Route path="/episode_list/2" element={<EpisodeList2 />} />
-              <Route path="/episode_list/:id" element={<EpisodeDetail />} />
+              <Route path="/episode_detail/:id" element={<EpisodeDetail />} />
               <Route path="/episode_create" element={<EpisodeCreate />} />
               <Route path="/episode_edit/:id" element={<EpisodeEdit />} />
               <Route path="/user/episodes" element={<UserEpisodeList />} />
