@@ -2,9 +2,6 @@
 import { useState, useEffect } from 'react'
 import type { VFC } from 'react'
 
-// React Router
-import { useNavigate } from 'react-router-dom'
-
 // Containers
 import Layout from '@containers/Layout'
 

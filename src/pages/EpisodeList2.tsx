@@ -2,12 +2,6 @@
 import { useState, useEffect, useContext } from 'react'
 import type { VFC } from 'react'
 
-// React Router
-import { useNavigate } from 'react-router-dom'
-
-// Mui
-import { Button } from '@mui/material'
-
 // Components
 import Layout from '@containers/Layout'
 

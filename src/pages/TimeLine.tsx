@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import type { VFC } from 'react'
 
 // React Router
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
