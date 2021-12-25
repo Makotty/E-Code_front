@@ -1,5 +1,3 @@
-// import Cookies from 'js-cookie'
-
 import client from './client'
 
 const getUser = (id: number) => {
