@@ -12,7 +12,12 @@ const EpisodeComments: VFC<EpisodeCommentsProps> = (props) => {
     <div>
       {episodeComments &&
         episodeComments.slice(-5).map((data: EpisodeCommentData) => {
-          const date = data.createdAt.replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
+          const date = data.createdAt
+            .toString()
+            .replace('T', ' ')
+            .split('.')
+            .shift()
+            ?.replace(/-/g, '/')
 
           return (
             <div key={data.id}>

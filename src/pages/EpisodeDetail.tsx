@@ -132,7 +132,12 @@ const EpisodeDetail: VFC = () => {
 
         {episodeData?.episodeComments &&
           episodeData?.episodeComments.map((data) => {
-            const date = data.createdAt.replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
+            const date = data.createdAt
+              .toString()
+              .replace('T', ' ')
+              .split('.')
+              .shift()
+              ?.replace(/-/g, '/')
 
             return (
               <div key={data.id}>
