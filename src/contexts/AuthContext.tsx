@@ -1,6 +1,14 @@
+// React
 import { createContext, useState, useEffect, useContext, useMemo } from 'react'
 import type { VFC, ReactNode, Dispatch, SetStateAction } from 'react'
+
+// Components
+import Progress from '@components/Progress/intex'
+
+// Interfaces
 import { CorderUser } from '@interfaces/index'
+
+// Lib
 import { getCurrentUser } from '@lib/api/auth'
 
 export const AuthContext = createContext(
@@ -21,6 +29,7 @@ type AuthContextProviderProps = {
 }
 
 export const AuthContextProvider: VFC<AuthContextProviderProps> = ({ children }) => {
+  const [loading, setLoading] = useState(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
   const [corderCurrentUser, setCorderCurrentUser] = useState<CorderUser | undefined>()
 
@@ -54,7 +63,11 @@ export const AuthContextProvider: VFC<AuthContextProviderProps> = ({ children })
       .catch(() => {
         //
       })
+    setLoading(false)
   }, [setCorderCurrentUser])
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  if (loading) {
+    return <Progress />
+  }
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>
 }

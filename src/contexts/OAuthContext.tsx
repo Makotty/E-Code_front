@@ -6,6 +6,9 @@ import { onAuthStateChanged } from 'firebase/auth'
 import type { User } from 'firebase/auth'
 import { auth } from '@lib/firebase'
 
+// Components
+import Progress from '@components/Progress/intex'
+
 type OAuthContextProps = {
   readerCurrentUser: User | null | undefined
 }
@@ -24,6 +27,7 @@ type OAuthContextProviderProps = {
 
 export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({ children }) => {
   const [readerCurrentUser, setReaderCurrentUser] = useState<User | null | undefined>(undefined)
+  const [loading, setLoading] = useState(true)
 
   const value = useMemo(() => {
     return { readerCurrentUser }
@@ -32,11 +36,15 @@ export const OAuthContextProvider: VFC<OAuthContextProviderProps> = ({ children 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setReaderCurrentUser(user)
+      setLoading(false)
     })
     return () => {
       unsubscribe()
     }
   }, [])
 
-  return <OAuthContext.Provider value={value}>{children}</OAuthContext.Provider>
+  if (loading) {
+    return <Progress />
+  }
+  return <OAuthContext.Provider value={value}>{!loading && children}</OAuthContext.Provider>
 }
