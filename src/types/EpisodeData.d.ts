@@ -12,5 +12,10 @@ export type EpisodeCommentData = {
   content: string
   contributorName: string
   contributorImage: string
-  createdAt: string
+
+  userId: number
+  episodeId: number
+
+  createdAt: Date
+  updatedAt: Date
 }
