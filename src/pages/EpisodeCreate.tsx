@@ -2,10 +2,10 @@
 import { ChangeEvent, useState, VFC, MouseEvent, useContext } from 'react'
 
 // React Router
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 // Mui
-import { Button } from '@mui/material'
+import { Button, Paper } from '@mui/material'
 
 // Components
 import EpisodeTextArea from '@components/EpisodeTextArea'
@@ -15,14 +15,25 @@ import Layout from '@containers/Layout'
 
 // Lib
 import { createEpisode } from '@lib/api/episode'
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 const EpisodeCreate: VFC = () => {
+  const { corderCurrentUser } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
-  const { corderCurrentUser } = useContext(AuthContext)
 
   const [episodeValue, setEpisodeValue] = useState('')
+
+  if (readerCurrentUser) {
+    return <Navigate to="/timeline" />
+  }
+
+  if (!corderCurrentUser && !readerCurrentUser) {
+    return <Navigate to="/" />
+  }
+
   const contributorName = corderCurrentUser?.name
   const contributorImage = corderCurrentUser?.fileUrl
 
@@ -48,13 +59,15 @@ const EpisodeCreate: VFC = () => {
 
   return (
     <Layout>
-      {errorMessage && <p>{errorMessage}</p>}
-      <form>
-        <EpisodeTextArea onChange={handleChangeCreateArea} />
-      </form>
-      <Button type="submit" variant="contained" onClick={handleSubmit}>
-        投稿する
-      </Button>
+      <Paper>
+        {errorMessage && <p>{errorMessage}</p>}
+        <form>
+          <EpisodeTextArea onChange={handleChangeCreateArea} />
+        </form>
+        <Button type="submit" variant="contained" onClick={handleSubmit}>
+          投稿する
+        </Button>
+      </Paper>
     </Layout>
   )
 }

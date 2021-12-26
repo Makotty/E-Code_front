@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 import client from './client'
 
 // Types
-import type { EpisodeCommentData, EpisodeData } from '../../types/EpisodeData'
+import type { EpisodeData } from '../../types/EpisodeData'
 
 type getEpisodeListData = EpisodeData[]
 
@@ -16,17 +16,8 @@ export const getEpisodeList = (): Promise<AxiosResponse<getEpisodeListData>> => 
   return client.get('/episodes')
 }
 
-type getEpisodeDetailData = {
-  id: number
-  content: string
-  contributorName: string
-  contributorImage: string
-  episodeComments: Array<EpisodeCommentData> | null
-  userId: number
-}
-
 // エピソード詳細
-export const getEpisodeDetail = (id: string): Promise<AxiosResponse<getEpisodeDetailData>> => {
+export const getEpisodeDetail = (id: string): Promise<AxiosResponse<EpisodeData>> => {
   return client.get(`/episodes/${id}`)
 }
 

@@ -1,25 +1,32 @@
 // React
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import type { VFC } from 'react'
 
-// Components
-import Layout from '@containers/Layout'
+// React Router
+import { useNavigate } from 'react-router-dom'
 
 // Containers
+import Layout from '@containers/Layout'
+
 import EpisodeListCard from '@containers/EpisodeListCard'
 
 // Contexts
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Lib
 import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
+import { deleteEpisodeComment } from '@lib/api/episode_comment'
 
-import EpisodeCreateButton from '@containers/EpisodeCreateButton'
+// Types
+import { EpisodeCommentData } from '../types/EpisodeCommentData'
 import type { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeList2: VFC = () => {
+  const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
-  const { corderCurrentUser } = useContext(AuthContext)
+  const { corderCurrentUser } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
 
   const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
 
@@ -38,15 +45,37 @@ const EpisodeList2: VFC = () => {
   useEffect(() => {
     handleGetEpisodeList()
       .then(() => {
-        //
+        if (!corderCurrentUser && !readerCurrentUser) {
+          navigate('/')
+        }
       })
       .catch(() => {
         //
       })
-  }, [])
+  }, [corderCurrentUser, readerCurrentUser, navigate])
 
   const handleEpisodeDelete = async (contents: EpisodeData) => {
     await deleteEpisode(contents.id)
+      .then(() => {
+        handleGetEpisodeList()
+          .then(() => {
+            //
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorMessage('エピソードを取得できませんでした')
+            }
+          })
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('このエピソードは消すことができなかったみたいです。')
+        }
+      })
+  }
+
+  const handleEpisodeCommentDelete = async (data: EpisodeCommentData) => {
+    await deleteEpisodeComment(data.id)
       .then(() => {
         handleGetEpisodeList()
           .then(() => {
@@ -69,11 +98,10 @@ const EpisodeList2: VFC = () => {
     <Layout>
       {errorMessage && <p>{errorMessage}</p>}
 
-      <EpisodeCreateButton />
-
       <EpisodeListCard
         episodeDataList={episodeDataList}
         handleEpisodeDelete={handleEpisodeDelete}
+        handleEpisodeCommentDelete={handleEpisodeCommentDelete}
         corderCurrentUser={corderCurrentUser}
         sliceStartNumber={-50}
         sliceEndNumber={-100}
