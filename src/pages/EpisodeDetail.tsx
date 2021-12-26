@@ -14,6 +14,7 @@ import EpisodeTextArea from '@components/EpisodeTextArea'
 
 // Containers
 import Layout from '@containers/Layout'
+import EpisodeComments from '@containers/EpisodeComments'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
@@ -23,7 +24,6 @@ import { getEpisodeDetail } from '@lib/api/episode'
 import createEpisodeComment from '@lib/api/episode_comment'
 
 // Types
-
 import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
@@ -130,24 +130,7 @@ const EpisodeDetail: VFC = () => {
           </>
         )}
 
-        {episodeData?.episodeComments &&
-          episodeData?.episodeComments.map((data) => {
-            const date = data.createdAt
-              .toString()
-              .replace('T', ' ')
-              .split('.')
-              .shift()
-              ?.replace(/-/g, '/')
-
-            return (
-              <div key={data.id}>
-                <Avatar src={data.contributorImage} alt="コメント投稿者のアバター" />
-                <p>{data.contributorName}</p>
-                <p>{data.content}</p>
-                <p>{date}</p>
-              </div>
-            )
-          })}
+        <EpisodeComments episodeComments={episodeData?.episodeComments} />
 
         <Button onClick={handleBack}>戻る</Button>
       </Paper>
