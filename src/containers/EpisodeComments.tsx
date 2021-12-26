@@ -1,9 +1,9 @@
 import { Avatar } from '@mui/material'
 import type { VFC } from 'react'
-import { EpisodeCommentData } from '../types/EpisodeData'
+import { EpisodeCommentData } from '../types/EpisodeCommentData'
 
 type EpisodeCommentsProps = {
-  episodeComments: EpisodeCommentData[] | null
+  episodeComments: EpisodeCommentData[] | null | undefined
 }
 const EpisodeComments: VFC<EpisodeCommentsProps> = (props) => {
   const { episodeComments } = props
@@ -12,18 +12,14 @@ const EpisodeComments: VFC<EpisodeCommentsProps> = (props) => {
     <div>
       {episodeComments &&
         episodeComments.slice(-5).map((data: EpisodeCommentData) => {
-          const date = data.createdAt
-            .toString()
-            .replace('T', ' ')
-            .split('.')
-            .shift()
-            ?.replace(/-/g, '/')
+          const { id, content, contributorName, contributorImage, createdAt } = data
+          const date = createdAt.toString().replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
 
           return (
-            <div key={data.id}>
-              <Avatar src={data.contributorImage} alt="コメント投稿者のアバター" />
-              <p>{data.contributorName}</p>
-              <p>{data.content}</p>
+            <div key={id}>
+              <Avatar src={contributorImage} alt="コメント投稿者のアバター" />
+              <p>{contributorName}</p>
+              <p>{content}</p>
               <p>{date}</p>
             </div>
           )
