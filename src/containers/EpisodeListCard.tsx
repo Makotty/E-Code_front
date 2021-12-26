@@ -37,7 +37,17 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
       {episodeDataList?.slice(sliceStartNumber, sliceEndNumber).map((contents: EpisodeData) => {
-        const { id, content, contributorName, contributorImage, userId, episodeComments } = contents
+        const {
+          id,
+          content,
+          contributorName,
+          contributorImage,
+          userId,
+          episodeComments,
+          createdAt
+        } = contents
+
+        const date = createdAt.toString().replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
 
         return (
           <Accordion key={id}>
@@ -54,6 +64,7 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
               <Link to={`/episode_detail/${id}`}>
                 <p>{content}</p>
               </Link>
+              <p>{date}</p>
 
               <EpisodeComments episodeComments={episodeComments} />
 
