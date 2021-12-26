@@ -17,8 +17,12 @@ import Layout from '@containers/Layout'
 
 // Lib
 import { getEpisodeDetail, updateEpisode } from '@lib/api/episode'
+import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 const EpisodeEdit: VFC = () => {
+  const { corderCurrentUser } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -43,12 +47,14 @@ const EpisodeEdit: VFC = () => {
   useEffect(() => {
     handleGetEpisodeData(query)
       .then(() => {
-        //
+        if (!corderCurrentUser && !readerCurrentUser) {
+          navigate('/')
+        }
       })
       .catch(() => {
         //
       })
-  }, [query])
+  }, [corderCurrentUser, readerCurrentUser, navigate, query])
 
   const handleChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setEpisodeDataValue(event.currentTarget.value)
