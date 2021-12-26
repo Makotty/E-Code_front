@@ -18,12 +18,14 @@ import EpisodeComments from '@containers/EpisodeComments'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Lib
 import { getEpisodeDetail } from '@lib/api/episode'
-import createEpisodeComment from '@lib/api/episode_comment'
+import { createEpisodeComment, deleteEpisodeComment } from '@lib/api/episode_comment'
 
 // Types
+import { EpisodeCommentData } from '../types/EpisodeCommentData'
 import { EpisodeData } from '../types/EpisodeData'
 
 const EpisodeDetail: VFC = () => {
@@ -31,6 +33,7 @@ const EpisodeDetail: VFC = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const { corderCurrentUser } = useAuthContext()
+  const { readerCurrentUser } = useOAuthContext()
 
   const [episodeCommentValue, setEpisodeCommentValue] = useState('')
   const [episodeId, setEpisodeId] = useState<number>(0)
@@ -87,14 +90,36 @@ const EpisodeDetail: VFC = () => {
   useEffect(() => {
     handleGetEpisodeDetail(query)
       .then(() => {
-        //
+        if (!corderCurrentUser && !readerCurrentUser) {
+          navigate('/')
+        }
       })
       .catch((error) => {
         if (error) {
           setErrorMessage('何らかのエラーが発生しました')
         }
       })
-  }, [query])
+  }, [corderCurrentUser, readerCurrentUser, navigate, query])
+
+  const handleEpisodeCommentDelete = async (data: EpisodeCommentData) => {
+    await deleteEpisodeComment(data.id)
+      .then(() => {
+        handleGetEpisodeDetail(query)
+          .then(() => {
+            //
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorMessage('エピソードを取得できませんでした')
+            }
+          })
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('このエピソードは消すことができなかったみたいです。')
+        }
+      })
+  }
 
   const handleBack = () => {
     navigate(-1)
@@ -130,7 +155,11 @@ const EpisodeDetail: VFC = () => {
           </>
         )}
 
-        <EpisodeComments episodeComments={episodeData?.episodeComments} />
+        <EpisodeComments
+          episodeComments={episodeData?.episodeComments}
+          handleEpisodeCommentDelete={handleEpisodeCommentDelete}
+          corderCurrentUser={corderCurrentUser}
+        />
 
         <Button onClick={handleBack}>戻る</Button>
       </Paper>
