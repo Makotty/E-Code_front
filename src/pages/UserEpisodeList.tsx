@@ -22,6 +22,8 @@ import getUserEpisodes from '@lib/api/user_episode'
 
 // Types
 import { EpisodeData } from 'src/types/EpisodeData'
+import { deleteEpisodeComment } from '@lib/api/episode_comment'
+import { EpisodeCommentData } from 'src/types/EpisodeCommentData'
 
 const UserEpisodeList: VFC = () => {
   const navigate = useNavigate()
@@ -66,6 +68,26 @@ const UserEpisodeList: VFC = () => {
     }
   }, [handleGetUserEpisodes])
 
+  const handleEpisodeCommentDelete = async (data: EpisodeCommentData) => {
+    await deleteEpisodeComment(data.id)
+      .then(() => {
+        handleGetUserEpisodes()
+          .then(() => {
+            //
+          })
+          .catch((error) => {
+            if (error) {
+              setErrorMessage('エピソードを取得できませんでした')
+            }
+          })
+      })
+      .catch((error) => {
+        if (error) {
+          setErrorMessage('このエピソードは消すことができなかったみたいです。')
+        }
+      })
+  }
+
   useEffect(() => {
     handleGetUserEpisodes()
       .then(() => {
@@ -85,6 +107,7 @@ const UserEpisodeList: VFC = () => {
               episodeDataList={userEpisodes}
               handleEpisodeDelete={handleEpisodeDelete}
               corderCurrentUser={corderCurrentUser}
+              handleEpisodeCommentDelete={handleEpisodeCommentDelete}
             />
           )
         }
