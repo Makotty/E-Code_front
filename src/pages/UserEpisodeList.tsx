@@ -3,10 +3,10 @@ import { useState, useEffect, useContext, useMemo, useCallback } from 'react'
 import type { VFC } from 'react'
 
 // React Router
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 // Components
-import ECodeNavBar from '@components/NaviBar'
+import ECodeNavBar from '@components/ECodeNaviBar'
 
 // Containers
 import Layout from '@containers/Layout'
