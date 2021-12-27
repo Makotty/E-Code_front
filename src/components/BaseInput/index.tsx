@@ -16,15 +16,7 @@ type BaseInputProps = {
 }
 
 const BaseInput: VFC<BaseInputProps> = (props) => {
-  const {
-    fieldLabel,
-    type,
-    defaultValue,
-    placeholder,
-    register,
-    label,
-    requiredFlag
-  } = props
+  const { fieldLabel, type, defaultValue, placeholder, register, label, requiredFlag } = props
   return (
     <FullWidthTextField
       variant="standard"
