@@ -11,7 +11,7 @@ import { Avatar, Button, Paper } from '@mui/material'
 
 // Components
 import EpisodeTextArea from '@components/EpisodeTextArea'
-import ECodeNavBar from '@components/NaviBar'
+import ECodeNavBar from '@components/ECodeNaviBar'
 
 // Containers
 import Layout from '@containers/Layout'

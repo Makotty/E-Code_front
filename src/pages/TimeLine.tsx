@@ -14,7 +14,7 @@ import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Components
 import BaseModal from '@components/BaseModal'
-import ECodeNavBar from '@components/NaviBar'
+import ECodeNavBar from '@components/ECodeNaviBar'
 import EpisodeTextArea from '@components/EpisodeTextArea'
 
 // Containers
