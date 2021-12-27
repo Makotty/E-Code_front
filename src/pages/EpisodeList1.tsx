@@ -5,9 +5,11 @@ import type { VFC } from 'react'
 // React Router
 import { useNavigate } from 'react-router-dom'
 
+// Components
+import ECodeNavBar from '@components/ECodeNaviBar'
+
 // Containers
 import Layout from '@containers/Layout'
-
 import EpisodeListCard from '@containers/EpisodeListCard'
 
 // Contexts
@@ -96,6 +98,8 @@ const EpisodeList1: VFC = () => {
 
   return (
     <Layout>
+      <ECodeNavBar />
+
       {errorMessage && <p>{errorMessage}</p>}
 
       <EpisodeListCard
