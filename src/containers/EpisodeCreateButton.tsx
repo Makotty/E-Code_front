@@ -4,7 +4,7 @@ import { HistoryEdu } from '@mui/icons-material'
 
 import { useAuthContext } from '@contexts/AuthContext'
 
-import EpiCreeateButton from '@styles/EpisodeCreateButtonStyled'
+import EpiCreateButton from '@styles/EpisodeCreateButtonStyled'
 
 type EpisodeCreateButtonProps = {
   onClick: (event: MouseEvent<HTMLButtonElement>) => void
@@ -17,9 +17,9 @@ const EpisodeCreateButton: VFC<EpisodeCreateButtonProps> = (props) => {
   return (
     <div>
       {corderCurrentUser && (
-        <EpiCreeateButton onClick={onClick} color="secondary">
+        <EpiCreateButton onClick={onClick} color="secondary">
           <HistoryEdu />
-        </EpiCreeateButton>
+        </EpiCreateButton>
       )}
     </div>
   )
