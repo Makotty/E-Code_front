@@ -11,24 +11,16 @@ import type { SubmitHandler } from 'react-hook-form'
 
 // Mui
 import { Button } from '@mui/material'
+import { AutoStories, HistoryEdu } from '@mui/icons-material'
 
 // Firebase
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import type { AuthError } from 'firebase/auth'
 
-// Images
-import googleIcon from '@images/google-icon.svg'
-import twitterIcon from '@images/twitter-icon.svg'
-import facebookIcon from '@images/facebook-icon.svg'
-import githubIcon from '@images/github-icon.svg'
-
 // Components
-import BaseInput from '@components/BaseInput'
-import BaseOAuthButton from '@components/BaseOAuthButton'
+import SignPaper from '@components/SignPaper'
 
-// Containers
-import Layout from '@containers/Layout'
-import { googleAuth, twitterAuth, facebookAuth, githubAuth } from '@containers/OAuth'
+import OAuthAllButton from '@components/OAuthAllButton'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
@@ -74,54 +66,38 @@ const ReaderSignUp: VFC = () => {
   }
 
   return (
-    <Layout>
-      <h2>サインアップ(Reader)</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
-        <BaseInput
-          fieldLabel="email"
-          placeholder="example@example.com"
-          label="email"
-          register={register}
-          requiredFlag
-        />
-        {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
-        <BaseInput
-          fieldLabel="password"
-          type="password"
-          label="password"
-          register={register}
-          requiredFlag
-        />
-        <Button variant="contained" type="submit" disableElevation>
-          アカウントを作成
-        </Button>
-      </form>
-      <div>
-        ログインは<Link to="/reader_login">こちら</Link>から
-      </div>
-      <BaseOAuthButton
-        serviceAuth={googleAuth}
-        oAuthIcon={googleIcon}
-        oAuthAlt="Googleのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={twitterAuth}
-        oAuthIcon={twitterIcon}
-        oAuthAlt="Twitterのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={facebookAuth}
-        oAuthIcon={facebookIcon}
-        oAuthAlt="facebookのアイコン"
-      />
-      <BaseOAuthButton
-        serviceAuth={githubAuth}
-        oAuthIcon={githubIcon}
-        oAuthAlt="GitHubのアイコン"
-      />
-    </Layout>
+    <SignPaper register={register} errors={errors} errorMessage={errorMessage}>
+      <Button
+        variant="contained"
+        type="submit"
+        disableElevation
+        fullWidth
+        startIcon={<AutoStories />}
+        onClick={handleSubmit(onSubmit)}
+        sx={{ margin: '32px 0' }}
+      >
+        READER SIGN UP
+      </Button>
+
+      <OAuthAllButton />
+
+      <Button component={Link} to="/reader_login" fullWidth sx={{ marginTop: '32px' }}>
+        READER LOG IN
+      </Button>
+
+      <Button
+        variant="contained"
+        disableElevation
+        color="secondary"
+        component={Link}
+        to="/corder_signup"
+        fullWidth
+        sx={{ margin: '32px 0 64px 0' }}
+        startIcon={<HistoryEdu />}
+      >
+        CORDER SIGN UP
+      </Button>
+    </SignPaper>
   )
 }
 
