@@ -5,10 +5,19 @@ import type { VFC } from 'react'
 import { Link } from 'react-router-dom'
 
 // Mui
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Stack } from '@mui/material'
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  IconButton,
+  Stack
+} from '@mui/material'
+import { Delete, Edit } from '@mui/icons-material'
 
 // Styles
 import LinkText from '@styles/LintText'
+import { ContributorInfo, ContributorInfoName } from '@styles/episodeListCard'
 
 // Containers
 import EpisodeComments from '@containers/EpisodeComments'
@@ -74,34 +83,42 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
               <Accordion key={id}>
                 <AccordionSummary>
                   <div>
-                    <h3>{contributorName}</h3>
-                    <Avatar
-                      src={contributorImage}
-                      alt="アカウントアイコン"
-                      sx={{ width: 64, height: 64 }}
-                    />
+                    <ContributorInfo>
+                      <Avatar
+                        src={contributorImage}
+                        alt="アカウントアイコン"
+                        sx={{ width: 64, height: 64 }}
+                      />
+                      <ContributorInfoName>{contributorName}</ContributorInfoName>
+                    </ContributorInfo>
+
                     <LinkText to={`/episode_detail/${id}`}>
                       <p>{content}</p>
                     </LinkText>
                     <p>{date}</p>
                     {corderCurrentUser?.id === userId ? (
-                      <Button component={Link} to={`/episode_edit/${id}`}>
-                        更新
-                      </Button>
+                      <IconButton component={Link} to={`/episode_edit/${id}`}>
+                        <Edit />
+                      </IconButton>
                     ) : (
-                      <Button disabled>更新</Button>
+                      <IconButton disabled>
+                        <Edit />
+                      </IconButton>
                     )}
 
                     {corderCurrentUser?.id === userId ? (
-                      <Button
+                      <IconButton
                         onClick={() => {
                           return handleEpisodeDelete(contents)
                         }}
+                        sx={{ marginLeft: '16px' }}
                       >
-                        削除
-                      </Button>
+                        <Delete />
+                      </IconButton>
                     ) : (
-                      <Button disabled>削除</Button>
+                      <IconButton disabled sx={{ marginLeft: '16px' }}>
+                        <Delete />
+                      </IconButton>
                     )}
                   </div>
                 </AccordionSummary>
