@@ -11,15 +11,13 @@ import type { SubmitHandler } from 'react-hook-form'
 
 // Mui
 import { Button } from '@mui/material'
+import { AutoStories, HistoryEdu } from '@mui/icons-material'
 
 // Js-Cookie
 import Cookies from 'js-cookie'
 
 // Components
-import BaseInput from '@components/BaseInput'
-
-// Containers
-import Layout from '@containers/Layout'
+import SignPaper from '@components/SignPaper'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
@@ -80,34 +78,34 @@ const CorderLogIn: VFC = () => {
   }
 
   return (
-    <Layout>
-      <h2>ログイン画面(Corder)</h2>
-      {errorMessage && <p>{errorMessage}</p>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
-        <BaseInput
-          fieldLabel="email"
-          placeholder="example@example.com"
-          label="email"
-          register={register}
-          requiredFlag
-        />
-        {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
-        <BaseInput
-          fieldLabel="password"
-          type="password"
-          label="password"
-          register={register}
-          requiredFlag
-        />
-        <Button variant="contained" type="submit" disableElevation>
-          ログイン
-        </Button>
-      </form>
-      <div>
-        ユーザ登録は<Link to="/corder_signup">こちら</Link>から
-      </div>
-    </Layout>
+    <SignPaper register={register} errors={errors} errorMessage={errorMessage}>
+      <Button
+        variant="contained"
+        type="submit"
+        disableElevation
+        color="secondary"
+        fullWidth
+        startIcon={<HistoryEdu />}
+        onClick={handleSubmit(onSubmit)}
+        sx={{ marginTop: '32px' }}
+      >
+        CORDER LOG IN
+      </Button>
+      <Button component={Link} to="/corder_signup" fullWidth sx={{ marginTop: '32px' }}>
+        CORDER SIGN UP
+      </Button>
+      <Button
+        variant="contained"
+        disableElevation
+        component={Link}
+        to="/reader_login"
+        fullWidth
+        sx={{ margin: '32px 0 64px 0' }}
+        startIcon={<AutoStories />}
+      >
+        READER LOG IN
+      </Button>
+    </SignPaper>
   )
 }
 
