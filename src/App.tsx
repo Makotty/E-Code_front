@@ -17,7 +17,7 @@ import ReaderSignUp from '@pages/ReaderSignUp'
 import TimeLine from '@pages/TimeLine'
 
 import EpisodeDetail from '@pages/EpisodeDetail'
-import EpisodeCreate from '@pages/EpisodeCreate'
+// import EpisodeCreate from '@pages/EpisodeCreate'
 import EpisodeEdit from '@pages/EpisodeEdit'
 import EpisodeList1 from '@pages/EpisodeList1'
 import EpisodeList2 from '@pages/EpisodeList2'
@@ -42,7 +42,7 @@ const App: VFC = () => {
               <Route path="/episode_list/1" element={<EpisodeList1 />} />
               <Route path="/episode_list/2" element={<EpisodeList2 />} />
               <Route path="/episode_detail/:id" element={<EpisodeDetail />} />
-              <Route path="/episode_create" element={<EpisodeCreate />} />
+              {/* <Route path="/episode_create" element={<EpisodeCreate />} /> */}
               <Route path="/episode_edit/:id" element={<EpisodeEdit />} />
               <Route path="/user/episodes" element={<UserEpisodeList />} />
             </Routes>
