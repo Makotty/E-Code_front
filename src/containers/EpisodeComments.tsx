@@ -1,11 +1,22 @@
 import type { VFC } from 'react'
 
 // Mui
-import { Avatar, Button } from '@mui/material'
+import { Avatar, IconButton, Stack } from '@mui/material'
 
 // Interfaces
 import { CorderUser } from '@interfaces/index'
 
+import { Delete } from '@mui/icons-material'
+
+// Styles
+import {
+  CommentContent,
+  CommentContentDate,
+  CommentContributorInfoName,
+  ContributorInfo
+} from '@styles/episodeListCard'
+
+// Types
 import { EpisodeCommentData } from '../types/EpisodeCommentData'
 
 type EpisodeCommentsProps = {
@@ -18,33 +29,44 @@ const EpisodeComments: VFC<EpisodeCommentsProps> = (props) => {
 
   return (
     <div>
-      {episodeComments &&
-        episodeComments.slice(-5).map((data: EpisodeCommentData) => {
-          const { id, content, contributorName, contributorImage, createdAt, userId } = data
-          const date = createdAt.toString().replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
+      <Stack spacing={2}>
+        {episodeComments &&
+          episodeComments.slice(-5).map((data: EpisodeCommentData) => {
+            const { id, content, contributorName, contributorImage, createdAt, userId } = data
+            const date = createdAt
+              .toString()
+              .replace('T', ' ')
+              .split('.')
+              .shift()
+              ?.replace(/-/g, '/')
 
-          return (
-            <div key={id}>
-              <div>
-                <Avatar src={contributorImage} alt="コメント投稿者のアバター" />
-                <p>{contributorName}</p>
-                <p>{content}</p>
-                <p>{date}</p>
+            return (
+              <div key={id}>
+                <div>
+                  <ContributorInfo>
+                    <Avatar src={contributorImage} alt="コメント投稿者のアバター" />
+                    <CommentContributorInfoName>{contributorName}</CommentContributorInfoName>
+                  </ContributorInfo>
+                  <CommentContent>{content}</CommentContent>
+                  <CommentContentDate>{date}</CommentContentDate>
+                </div>
+                {corderCurrentUser?.id === userId ? (
+                  <IconButton
+                    onClick={() => {
+                      return handleEpisodeCommentDelete(data)
+                    }}
+                  >
+                    <Delete />
+                  </IconButton>
+                ) : (
+                  <IconButton disabled>
+                    <Delete />
+                  </IconButton>
+                )}
               </div>
-              {corderCurrentUser?.id === userId ? (
-                <Button
-                  onClick={() => {
-                    return handleEpisodeCommentDelete(data)
-                  }}
-                >
-                  削除
-                </Button>
-              ) : (
-                <Button disabled>削除</Button>
-              )}
-            </div>
-          )
-        })}
+            )
+          })}
+      </Stack>
     </div>
   )
 }
