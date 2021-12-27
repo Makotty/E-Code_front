@@ -11,9 +11,13 @@ import type { SubmitHandler } from 'react-hook-form'
 
 // Mui
 import { Avatar, Button } from '@mui/material'
+import { Close, Done } from '@mui/icons-material'
 
 // Js-Cookie
 import Cookies from 'js-cookie'
+
+// Styles
+import { DoneButton, ProfileButton, ProfileCard, ProfileText } from '@styles/corderSignUpModal'
 
 // Components
 import BaseModal from '@components/BaseModal'
@@ -104,23 +108,19 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
 
   return (
     <BaseModal showFlag={showFlag}>
-      <h2>確認画面</h2>
-      {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <p>{modalUserEmail}</p>
-        </div>
+        <ProfileCard>
+          <div>
+            <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 96, height: 96 }} />
+          </div>
+          <ProfileText>
+            <p>{modalUserName}</p>
 
-        <div>
-          <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 64, height: 64 }} />
-        </div>
-        <div>
-          <p>{modalUserName}</p>
-        </div>
+            <p>{modalUserEmail}</p>
 
-        <div>
-          <p>{modalUserBirthDay}</p>
-        </div>
+            <p>{modalUserBirthDay}</p>
+          </ProfileText>
+        </ProfileCard>
 
         <input type="hidden" {...register('email')} defaultValue={modalUserEmail} />
         <input type="hidden" {...register('fileUrl')} defaultValue={modalFileUrl} />
@@ -132,13 +132,29 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
           {...register('passwordConfirmation')}
           defaultValue={modalUserPasswordConfirmation}
         />
+        {errorMessage && <p>{errorMessage}</p>}
 
-        <Button variant="contained" onClick={onClick}>
-          修正する
-        </Button>
-        <Button variant="contained" type="submit">
-          登録する
-        </Button>
+        <ProfileButton>
+          <Button
+            variant="contained"
+            onClick={onClick}
+            fullWidth
+            startIcon={<Close />}
+            disableElevation
+          >
+            CANCEL
+          </Button>
+          <DoneButton
+            variant="contained"
+            color="secondary"
+            type="submit"
+            fullWidth
+            startIcon={<Done />}
+            disableElevation
+          >
+            SIGN UP
+          </DoneButton>
+        </ProfileButton>
       </form>
     </BaseModal>
   )

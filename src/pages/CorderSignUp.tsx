@@ -15,14 +15,18 @@ import AWS from 'aws-sdk'
 import { v4 as uuidv4 } from 'uuid'
 
 // Mui
-import { Avatar, Button, Stack } from '@mui/material'
+import { Avatar, Box, Button, Stack } from '@mui/material'
+import { AutoStories, HistoryEdu } from '@mui/icons-material'
+
+// Styles
+import { AvatorBox } from '@styles/pages/ReaderSign'
 
 // Components
 import BaseInput from '@components/BaseInput'
 import BaseUpLoadImgButton from '@components/BaseUpLoadImgButton'
+import SignPaper from '@components/SignPaper'
 
 // Containers
-import Layout from '@containers/Layout'
 import CorderSignUpModal from '@containers/CorderSignUpModal'
 
 // Contexts
@@ -126,19 +130,29 @@ const CorderSignUp: VFC = () => {
   }
 
   return (
-    <Layout>
-      <h2>サインアップ画面(Corder)</h2>
-      <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 64, height: 64 }} />
-          <div>
-            <BaseUpLoadImgButton label="userImg" onChange={imageChange} disableElevation>
-              アップロード
-            </BaseUpLoadImgButton>
-          </div>
-        </div>
-        <Stack spacing={3}>
+    <SignPaper register={register} errors={errors} errorMessage={errorMessage}>
+      <form>
+        {errors.passwordConfirmation?.type === 'required' && (
+          <p>パスワード(確認)が入力されていません</p>
+        )}
+        <Stack spacing={1}>
+          <Box sx={{ marginTop: '8px' }}>
+            <BaseInput
+              fieldLabel="passwordConfirmation"
+              type="password"
+              label="passwordConfirmation"
+              register={register}
+              requiredFlag
+            />
+          </Box>
+          <AvatorBox>
+            <Avatar src={imagePath} alt="アカウントアイコン" sx={{ width: 64, height: 64 }} />
+          </AvatorBox>
+        </Stack>
+        <Stack spacing={1}>
+          <BaseUpLoadImgButton label="userImg" onChange={imageChange} disableElevation>
+            ICON SELECT
+          </BaseUpLoadImgButton>
           {errors.name?.type === 'required' && <p>名前が入力されていません</p>}
           <BaseInput fieldLabel="name" label="name" register={register} requiredFlag />
           {errors.birthDay?.type === 'required' && <p>誕生日が入力されていません</p>}
@@ -150,40 +164,35 @@ const CorderSignUp: VFC = () => {
             requiredFlag
             defaultValue="2000-01-01"
           />
-          {errors.email?.type === 'required' && <p>メールアドレスが入力されていません</p>}
-          <BaseInput
-            fieldLabel="email"
-            placeholder="example@example.com"
-            label="email"
-            register={register}
-            requiredFlag
-          />
-          {errors.password?.type === 'required' && <p>パスワードが入力されていません</p>}
-          <BaseInput
-            fieldLabel="password"
-            type="password"
-            label="password"
-            register={register}
-            requiredFlag
-          />
-          {errors.passwordConfirmation?.type === 'required' && (
-            <p>パスワード(確認)が入力されていません</p>
-          )}
-          <BaseInput
-            fieldLabel="passwordConfirmation"
-            type="password"
-            label="passwordConfirmation"
-            register={register}
-            requiredFlag
-          />
         </Stack>
-        <Button variant="contained" type="submit" disableElevation>
-          アカウント作成
+
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disableElevation
+          onClick={handleSubmit(onSubmit)}
+          fullWidth
+          startIcon={<HistoryEdu />}
+          sx={{ marginTop: '32px' }}
+        >
+          CORDER SIGN UP
         </Button>
       </form>
-      <div>
-        ログインは<Link to="/corder_login">こちら</Link>から
-      </div>
+      <Button component={Link} to="/corder_login" fullWidth sx={{ marginTop: '32px' }}>
+        CORDER LOG IN
+      </Button>
+      <Button
+        variant="contained"
+        disableElevation
+        component={Link}
+        to="/reader_signup"
+        fullWidth
+        sx={{ margin: '32px 0 64px 0' }}
+        startIcon={<AutoStories />}
+      >
+        READER SIGN UP
+      </Button>
 
       <CorderSignUpModal
         imagePath={imagePath}
@@ -196,7 +205,7 @@ const CorderSignUp: VFC = () => {
         showFlag={showModal}
         onClick={closeModal}
       />
-    </Layout>
+    </SignPaper>
   )
 }
 

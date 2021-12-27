@@ -1,7 +1,8 @@
-import type { ChangeEvent, ReactNode, VFC } from 'react'
+import type { VFC, ChangeEvent, ReactNode } from 'react'
 
 // MUI
 import { Button } from '@mui/material'
+import { PhotoCamera } from '@mui/icons-material'
 
 import UpLoadInput from './styled'
 
@@ -18,7 +19,7 @@ const BaseUpLoadImgButton: VFC<FileUpProps> = (props) => {
     <label htmlFor={label}>
       <UpLoadInput
         type="file"
-        accept=".jpg,.png,.svg"
+        accept=".jpg,.jpeg,.png,.svg"
         id={label}
         name={label}
         onChange={onChange}
@@ -29,6 +30,9 @@ const BaseUpLoadImgButton: VFC<FileUpProps> = (props) => {
         component="span"
         {...props}
         disableElevation={disableElevation}
+        fullWidth
+        startIcon={<PhotoCamera />}
+        sx={{ marginTop: '32px', background: '#9be7ff' }}
       >
         {children}
       </Button>

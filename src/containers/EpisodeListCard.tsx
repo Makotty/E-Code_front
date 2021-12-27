@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom'
 // Mui
 import { Accordion, AccordionDetails, AccordionSummary, Avatar, Button, Stack } from '@mui/material'
 
+// Styles
+import LinkText from '@styles/LintText'
+
 // Containers
 import EpisodeComments from '@containers/EpisodeComments'
 
@@ -39,66 +42,80 @@ const EpisodeListCard: VFC<EpisodeListCardProps> = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column-reverse' }}>
-      <Stack spacing={4}>
-        {episodeDataList?.slice(sliceStartNumber, sliceEndNumber).map((contents: EpisodeData) => {
-          const {
-            id,
-            content,
-            contributorName,
-            contributorImage,
-            userId,
-            episodeComments,
-            createdAt
-          } = contents
+      <Stack spacing={2}>
+        {episodeDataList
+          ?.slice(sliceStartNumber, sliceEndNumber)
+          .reverse()
+          .map((contents: EpisodeData) => {
+            const {
+              id,
+              content,
+              contributorName,
+              contributorImage,
+              userId,
+              episodeComments,
+              createdAt
+            } = contents
 
-          const date = createdAt.toString().replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
+            const replaceNewLine = content.replaceAll(/\n/g, '<br>')
+            const episodeContent = document.getElementById('episodeContent')
+            if (episodeContent && replaceNewLine) {
+              episodeContent.innerHTML = replaceNewLine
+            }
 
-          return (
-            <Accordion key={id}>
-              <AccordionSummary>
-                <div>
-                  <h3>{contributorName}</h3>
-                  <Avatar
-                    src={contributorImage}
-                    alt="アカウントアイコン"
-                    sx={{ width: 64, height: 64 }}
+            const date = createdAt
+              .toString()
+              .replace('T', ' ')
+              .split('.')
+              .shift()
+              ?.replace(/-/g, '/')
+
+            return (
+              <Accordion key={id}>
+                <AccordionSummary>
+                  <div>
+                    <h3>{contributorName}</h3>
+                    <Avatar
+                      src={contributorImage}
+                      alt="アカウントアイコン"
+                      sx={{ width: 64, height: 64 }}
+                    />
+                    <LinkText to={`/episode_detail/${id}`}>
+                      <p>{content}</p>
+                    </LinkText>
+                    <p>{date}</p>
+                    {corderCurrentUser?.id === userId ? (
+                      <Button component={Link} to={`/episode_edit/${id}`}>
+                        更新
+                      </Button>
+                    ) : (
+                      <Button disabled>更新</Button>
+                    )}
+
+                    {corderCurrentUser?.id === userId ? (
+                      <Button
+                        onClick={() => {
+                          return handleEpisodeDelete(contents)
+                        }}
+                      >
+                        削除
+                      </Button>
+                    ) : (
+                      <Button disabled>削除</Button>
+                    )}
+                  </div>
+                </AccordionSummary>
+
+                <AccordionDetails>
+                  <EpisodeComments
+                    corderCurrentUser={corderCurrentUser}
+                    episodeComments={episodeComments}
+                    handleEpisodeCommentDelete={handleEpisodeCommentDelete}
                   />
-                  <Link to={`/episode_detail/${id}`}>
-                    <p>{content}</p>
-                  </Link>
-                  <p>{date}</p>
-                  {corderCurrentUser?.id === userId ? (
-                    <Button component={Link} to={`/episode_edit/${id}`}>
-                      更新
-                    </Button>
-                  ) : (
-                    <Button disabled>更新</Button>
-                  )}
-
-                  {corderCurrentUser?.id === userId ? (
-                    <Button
-                      onClick={() => {
-                        return handleEpisodeDelete(contents)
-                      }}
-                    >
-                      削除
-                    </Button>
-                  ) : (
-                    <Button disabled>削除</Button>
-                  )}
-                </div>
-              </AccordionSummary>
-
-              <AccordionDetails>
-                <EpisodeComments
-                  corderCurrentUser={corderCurrentUser}
-                  episodeComments={episodeComments}
-                  handleEpisodeCommentDelete={handleEpisodeCommentDelete}
-                />
-              </AccordionDetails>
-            </Accordion>
-          )
-        })}
+                </AccordionDetails>
+              </Accordion>
+            )
+          })}
       </Stack>
     </div>
   )

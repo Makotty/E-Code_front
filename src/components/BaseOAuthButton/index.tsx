@@ -1,15 +1,11 @@
-import type { MouseEventHandler, VFC } from 'react'
+import type { VFC } from 'react'
+
+import { OAuthButtonTypes } from '../../types/OAuthButton'
 
 // Styled
 import { OAuthButton, SvgBox } from './styled'
 
-type BaseOAuthButtonProps = {
-  serviceAuth: MouseEventHandler<HTMLButtonElement>
-  oAuthIcon: string
-  oAuthAlt: string
-}
-
-const BaseOAuthButton: VFC<BaseOAuthButtonProps> = (props) => {
+const BaseOAuthButton: VFC<OAuthButtonTypes> = (props) => {
   const { serviceAuth, oAuthIcon, oAuthAlt } = props
   return (
     <OAuthButton variant="outlined" onClick={serviceAuth}>

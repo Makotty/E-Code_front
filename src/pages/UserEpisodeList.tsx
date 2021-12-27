@@ -3,10 +3,11 @@ import { useState, useEffect, useContext, useMemo, useCallback } from 'react'
 import type { VFC } from 'react'
 
 // React Router
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
-// Mui
-import { Button } from '@mui/material'
+// Components
+import ECodeNavBar from '@components/ECodeNaviBar'
+
 // Containers
 import Layout from '@containers/Layout'
 
@@ -26,7 +27,6 @@ import { deleteEpisodeComment } from '@lib/api/episode_comment'
 import { EpisodeCommentData } from 'src/types/EpisodeCommentData'
 
 const UserEpisodeList: VFC = () => {
-  const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
 
   const { isSignedIn, corderCurrentUser } = useContext(AuthContext)
@@ -122,17 +122,10 @@ const UserEpisodeList: VFC = () => {
 
   return (
     <Layout>
-      <h1>{corderCurrentUser?.name}の投稿一覧</h1>
+      <ECodeNavBar />
+
       {errorMessage && <p>{errorMessage}</p>}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          return navigate('/timeline')
-        }}
-      >
-        戻る
-      </Button>
+
       <UserEpisodeCard />
     </Layout>
   )

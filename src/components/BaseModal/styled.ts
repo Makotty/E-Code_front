@@ -14,6 +14,10 @@ export const OverlayModal = styled.div`
 
 export const ModalCard = styled.div`
   background-color: white;
-  width: 50%;
+  width: 552px;
+  padding: 32px;
   border-radius: 4px;
+  @media screen and (max-width: 600px) {
+    width: 80%;
+  }
 `

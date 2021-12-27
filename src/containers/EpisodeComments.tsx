@@ -23,18 +23,12 @@ const EpisodeComments: VFC<EpisodeCommentsProps> = (props) => {
           const { id, content, contributorName, contributorImage, createdAt, userId } = data
           const date = createdAt.toString().replace('T', ' ').split('.').shift()?.replace(/-/g, '/')
 
-          const replaceNewLine = content.replaceAll(/\n/g, '<br>')
-          const episodeCommentContent = document.getElementById('episodeCommentContent')
-          if (episodeCommentContent && replaceNewLine) {
-            episodeCommentContent.innerHTML = replaceNewLine
-          }
-
           return (
             <div key={id}>
               <div>
                 <Avatar src={contributorImage} alt="コメント投稿者のアバター" />
                 <p>{contributorName}</p>
-                <div id="episodeCommentContent" />
+                <p>{content}</p>
                 <p>{date}</p>
               </div>
               {corderCurrentUser?.id === userId ? (

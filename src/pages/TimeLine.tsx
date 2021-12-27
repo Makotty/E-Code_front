@@ -1,28 +1,34 @@
 // React
 import { useEffect, useState } from 'react'
-import type { VFC } from 'react'
+import type { VFC, MouseEvent, ChangeEvent } from 'react'
 
 // React Router
 import { useNavigate } from 'react-router-dom'
+
+// Mui
+import { Button } from '@mui/material'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Components
-import Layout from '@containers/Layout'
+import BaseModal from '@components/BaseModal'
+import ECodeNavBar from '@components/NaviBar'
+import EpisodeTextArea from '@components/EpisodeTextArea'
 
 // Containers
+import Layout from '@containers/Layout'
+import EpisodeCreateButton from '@containers/EpisodeCreateButton'
+
 import EpisodeListCard from '@containers/EpisodeListCard'
 
 // Lib
-
-import { deleteEpisode, getEpisodeList } from '@lib/api/episode'
+import { createEpisode, deleteEpisode, getEpisodeList } from '@lib/api/episode'
+import { deleteEpisodeComment } from '@lib/api/episode_comment'
 
 // Types
-import EpisodeCreateButton from '@containers/EpisodeCreateButton'
-import { EpisodeCommentData } from 'src/types/EpisodeCommentData'
-import { deleteEpisodeComment } from '@lib/api/episode_comment'
+import { EpisodeCommentData } from '../types/EpisodeCommentData'
 import { EpisodeData } from '../types/EpisodeData'
 
 const TimeLine: VFC = () => {
@@ -33,6 +39,10 @@ const TimeLine: VFC = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const [episodeDataList, setEpisodeDataList] = useState<EpisodeData[] | undefined>([])
+
+  const [episodeValue, setEpisodeValue] = useState('')
+
+  const [showModal, setShowModal] = useState(false)
 
   const handleGetEpisodeList = async () => {
     await getEpisodeList()
@@ -98,9 +108,48 @@ const TimeLine: VFC = () => {
       })
   }
 
+  const contributorName = corderCurrentUser?.name
+  const contributorImage = corderCurrentUser?.fileUrl
+
+  const handleChangeCreateArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setEpisodeValue(event.currentTarget.value)
+  }
+
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    if (contributorName && contributorImage) {
+      await createEpisode({ content: episodeValue, contributorName, contributorImage })
+        .then(() => {
+          handleGetEpisodeList()
+            .then(() => {
+              setShowModal(false)
+            })
+            .catch((error) => {
+              if (error) {
+                setErrorMessage('エピソードを取得できませんでした')
+              }
+            })
+        })
+        .catch((error) => {
+          if (error) {
+            setErrorMessage('何らかのエラーが発生しました')
+          }
+        })
+    }
+  }
+
+  const openModal = () => {
+    setShowModal(true)
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
+
   return (
     <Layout>
-      <EpisodeCreateButton />
+      <ECodeNavBar />
 
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
@@ -111,6 +160,19 @@ const TimeLine: VFC = () => {
         corderCurrentUser={corderCurrentUser}
         sliceStartNumber={-50}
       />
+
+      <BaseModal showFlag={showModal}>
+        <form>
+          <EpisodeTextArea onChange={handleChangeCreateArea} />
+        </form>
+        <Button type="submit" variant="contained" onClick={handleSubmit}>
+          投稿する
+        </Button>
+        <Button type="submit" variant="contained" onClick={closeModal}>
+          閉じる
+        </Button>
+      </BaseModal>
+      <EpisodeCreateButton onClick={openModal} />
     </Layout>
   )
 }
