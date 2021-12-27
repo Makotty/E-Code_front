@@ -11,6 +11,7 @@ import { Avatar, Button, Paper } from '@mui/material'
 
 // Components
 import EpisodeTextArea from '@components/EpisodeTextArea'
+import ECodeNavBar from '@components/NaviBar'
 
 // Containers
 import Layout from '@containers/Layout'
@@ -133,6 +134,7 @@ const EpisodeDetail: VFC = () => {
 
   return (
     <Layout>
+      <ECodeNavBar />
       <Paper>
         <h2>Episode Detail</h2>
         {errorMessage && <p>{errorMessage}</p>}
