@@ -62,7 +62,7 @@ const Layout: VFC<LayoutProps> = ({ children }) => {
       ) : (
         <BaseHeader />
       )}
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
         {children}
       </Container>
