@@ -7,11 +7,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import type { Params } from 'react-router-dom'
 
 // Mui
-import { Avatar, Button, Paper } from '@mui/material'
+import { Avatar, Box, Button } from '@mui/material'
+import { AddComment } from '@mui/icons-material'
+
+// Styles
+import { EpisodeDetailPaper } from '@styles/pages/EpisodeDetailStyled'
+import { ContributorInfo, ContributorInfoName } from '@styles/episodeListCard'
 
 // Components
 import EpisodeTextArea from '@components/EpisodeTextArea'
-import ECodeNavBar from '@components/NaviBar'
+import ECodeNavBar from '@components/ECodeNaviBar'
 
 // Containers
 import Layout from '@containers/Layout'
@@ -57,7 +62,7 @@ const EpisodeDetail: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('エピソードの情報を取得することができませんでした')
           }
         })
     }
@@ -97,7 +102,7 @@ const EpisodeDetail: VFC = () => {
       })
       .catch((error) => {
         if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
+          setErrorMessage('エピソードの詳細を取得することができませんでした')
         }
       })
   }, [corderCurrentUser, readerCurrentUser, navigate, query])
@@ -122,10 +127,6 @@ const EpisodeDetail: VFC = () => {
       })
   }
 
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   const replaceNewLine = episodeData?.content.replaceAll(/\n/g, '<br>')
   const episodeContent = document.getElementById('episodeContent')
   if (episodeContent && replaceNewLine) {
@@ -135,36 +136,46 @@ const EpisodeDetail: VFC = () => {
   return (
     <Layout>
       <ECodeNavBar />
-      <Paper>
-        <h2>Episode Detail</h2>
+      <EpisodeDetailPaper>
         {errorMessage && <p>{errorMessage}</p>}
-        <Avatar
-          src={episodeData?.contributorImage}
-          alt="アカウントアイコン"
-          sx={{ width: 64, height: 64 }}
-        />
-        <p>{episodeData?.contributorName}</p>
-        <div id="episodeContent" />
+        <ContributorInfo>
+          <Avatar
+            src={episodeData?.contributorImage}
+            alt="アカウントアイコン"
+            sx={{ width: 64, height: 64 }}
+          />
+          <ContributorInfoName>{episodeData?.contributorName}</ContributorInfoName>
+        </ContributorInfo>
+
+        <Box sx={{ margin: '32px 0' }}>
+          <div id="episodeContent" />
+          <Box sx={{ fontSize: '14px', marginTop: '32px' }}>{episodeData?.createdAt}</Box>
+        </Box>
 
         {corderCurrentUser && (
           <>
             <form>
               <EpisodeTextArea onChange={handleChangeCreateArea} />
             </form>
-            <Button type="submit" variant="contained" onClick={handleSubmit}>
-              投稿する
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleSubmit}
+              sx={{ marginTop: '16px' }}
+              startIcon={<AddComment />}
+            >
+              コメントを投稿する
             </Button>
           </>
         )}
-
-        <EpisodeComments
-          episodeComments={episodeData?.episodeComments}
-          handleEpisodeCommentDelete={handleEpisodeCommentDelete}
-          corderCurrentUser={corderCurrentUser}
-        />
-
-        <Button onClick={handleBack}>戻る</Button>
-      </Paper>
+        <Box sx={{ marginTop: '32px' }}>
+          <EpisodeComments
+            episodeComments={episodeData?.episodeComments}
+            handleEpisodeCommentDelete={handleEpisodeCommentDelete}
+            corderCurrentUser={corderCurrentUser}
+          />
+        </Box>
+      </EpisodeDetailPaper>
     </Layout>
   )
 }

@@ -1,15 +1,32 @@
-import { ReactNode, useState, VFC } from 'react'
+// React
+import { useState } from 'react'
+import type { ReactNode, VFC } from 'react'
 
+// React Router
+import { useNavigate } from 'react-router-dom'
+
+// Firebase
+import { AuthError, signOut } from 'firebase/auth'
+
+// Js-Cookies
+import Cookies from 'js-cookie'
+
+// Mui
 import { Container } from '@mui/material'
+
+// Components
+import BaseHeader from '@components/BaseHeader'
+
+// Container
 import LogedInHeader from '@containers/LogedInHeader'
+
+// Contexts
 import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
+
+// Lib
 import { corderLogOut } from '@lib/api/auth'
-import { useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
-import { AuthError, signOut } from 'firebase/auth'
 import auth from '@lib/firebase'
-import BaseHeader from '../components/BaseHeader'
 
 type LayoutProps = {
   children: ReactNode
@@ -62,7 +79,7 @@ const Layout: VFC<LayoutProps> = ({ children }) => {
       ) : (
         <BaseHeader />
       )}
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ marginBottom: '64px' }}>
         <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
         {children}
       </Container>

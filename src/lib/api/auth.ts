@@ -3,11 +3,7 @@ import { AxiosResponse } from 'axios'
 
 import Cookies from 'js-cookie'
 
-import {
-  CorderSignUpParams,
-  CorderLogInParams,
-  CorderUser
-} from '@interfaces/index'
+import { CorderSignUpParams, CorderLogInParams, CorderUser } from '@interfaces/index'
 
 import client from './client'
 
@@ -56,14 +52,8 @@ type getCurrentUserProps = {
 }
 
 // 認証済みのユーザーを取得
-export const getCurrentUser = ():
-  | Promise<AxiosResponse<getCurrentUserProps>>
-  | undefined => {
-  if (
-    !Cookies.get('_access_token') ||
-    !Cookies.get('_client') ||
-    !Cookies.get('_uid')
-  )
+export const getCurrentUser = (): Promise<AxiosResponse<getCurrentUserProps>> | undefined => {
+  if (!Cookies.get('_access_token') || !Cookies.get('_client') || !Cookies.get('_uid'))
     return undefined
   return client.get('/auth/sessions', {
     headers: {

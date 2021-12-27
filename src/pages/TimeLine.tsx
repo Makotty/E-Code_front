@@ -7,6 +7,10 @@ import { useNavigate } from 'react-router-dom'
 
 // Mui
 import { Button } from '@mui/material'
+import { HistoryEdu } from '@mui/icons-material'
+
+// Styles
+import EpisodeCreateBox from '@styles/pages/TimeLineStyled'
 
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
@@ -14,7 +18,7 @@ import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Components
 import BaseModal from '@components/BaseModal'
-import ECodeNavBar from '@components/NaviBar'
+import ECodeNavBar from '@components/ECodeNaviBar'
 import EpisodeTextArea from '@components/EpisodeTextArea'
 
 // Containers
@@ -133,7 +137,7 @@ const TimeLine: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('エピソード一覧を取得できませんでした')
           }
         })
     }
@@ -165,12 +169,21 @@ const TimeLine: VFC = () => {
         <form>
           <EpisodeTextArea onChange={handleChangeCreateArea} />
         </form>
-        <Button type="submit" variant="contained" onClick={handleSubmit}>
-          投稿する
-        </Button>
-        <Button type="submit" variant="contained" onClick={closeModal}>
-          閉じる
-        </Button>
+        <EpisodeCreateBox>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            onClick={handleSubmit}
+            sx={{ marginTop: '16px' }}
+            startIcon={<HistoryEdu />}
+          >
+            投稿する
+          </Button>
+          <Button type="submit" variant="contained" onClick={closeModal} sx={{ marginTop: '32px' }}>
+            閉じる
+          </Button>
+        </EpisodeCreateBox>
       </BaseModal>
       <EpisodeCreateButton onClick={openModal} />
     </Layout>

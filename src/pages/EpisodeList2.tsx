@@ -10,6 +10,9 @@ import Layout from '@containers/Layout'
 
 import EpisodeListCard from '@containers/EpisodeListCard'
 
+// Components
+import ECodeNavBar from '@components/ECodeNaviBar'
+
 // Contexts
 import { useAuthContext } from '@contexts/AuthContext'
 import { useOAuthContext } from '@contexts/OAuthContext'
@@ -96,6 +99,8 @@ const EpisodeList2: VFC = () => {
 
   return (
     <Layout>
+      <ECodeNavBar />
+
       {errorMessage && <p>{errorMessage}</p>}
 
       <EpisodeListCard

@@ -8,17 +8,22 @@ import type { Params } from 'react-router-dom'
 
 // Mui
 import { Button } from '@mui/material'
+import { Edit } from '@mui/icons-material'
 
 // Components
+import ECodeNavBar from '@components/ECodeNaviBar'
 import EpisodeTextArea from '@components/EpisodeTextArea'
 
 // Containers
 import Layout from '@containers/Layout'
+import { EpisodeEditPaper } from '@styles/pages/EpisodeEditStyled'
+
+// Contexts
+import { useAuthContext } from '@contexts/AuthContext'
+import { useOAuthContext } from '@contexts/OAuthContext'
 
 // Lib
 import { getEpisodeDetail, updateEpisode } from '@lib/api/episode'
-import { useAuthContext } from '@contexts/AuthContext'
-import { useOAuthContext } from '@contexts/OAuthContext'
 
 const EpisodeEdit: VFC = () => {
   const { corderCurrentUser } = useAuthContext()
@@ -73,7 +78,7 @@ const EpisodeEdit: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('更新に失敗しました')
           }
         })
     }
@@ -81,14 +86,25 @@ const EpisodeEdit: VFC = () => {
 
   return (
     <Layout>
-      <h2>Episode Edit</h2>
-      {errorMessage && <p>{errorMessage}</p>}
-      <form>
-        <EpisodeTextArea onChange={handleChangeTextArea} value={episodeDataValue} />
-      </form>
-      <Button type="submit" variant="contained" onClick={handleSubmit}>
-        投稿する
-      </Button>
+      <ECodeNavBar />
+
+      <EpisodeEditPaper>
+        {errorMessage && <p>{errorMessage}</p>}
+        <form>
+          <EpisodeTextArea onChange={handleChangeTextArea} value={episodeDataValue} />
+        </form>
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          onClick={handleSubmit}
+          startIcon={<Edit />}
+          sx={{ marginTop: '16px' }}
+          disableElevation
+        >
+          更新する
+        </Button>
+      </EpisodeEditPaper>
     </Layout>
   )
 }
