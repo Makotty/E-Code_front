@@ -62,7 +62,7 @@ const EpisodeDetail: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('エピソードの情報を取得することができませんでした')
           }
         })
     }
@@ -102,7 +102,7 @@ const EpisodeDetail: VFC = () => {
       })
       .catch((error) => {
         if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
+          setErrorMessage('エピソードの詳細を取得することができませんでした')
         }
       })
   }, [corderCurrentUser, readerCurrentUser, navigate, query])

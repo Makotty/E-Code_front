@@ -68,7 +68,7 @@ const CorderLogIn: VFC = () => {
       })
       .catch((error) => {
         if (error) {
-          setErrorMessage('何らかのエラーが発生しました')
+          setErrorMessage('ログインできませんでした')
         }
       })
   }

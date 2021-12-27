@@ -137,7 +137,7 @@ const TimeLine: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('エピソード一覧を取得できませんでした')
           }
         })
     }

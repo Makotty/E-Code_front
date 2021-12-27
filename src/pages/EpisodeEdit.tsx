@@ -78,7 +78,7 @@ const EpisodeEdit: VFC = () => {
         })
         .catch((error) => {
           if (error) {
-            setErrorMessage('何らかのエラーが発生しました')
+            setErrorMessage('更新に失敗しました')
           }
         })
     }

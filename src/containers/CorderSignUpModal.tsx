@@ -101,7 +101,7 @@ const CreateAccountModal: VFC<CreateAccountModalProps> = (props) => {
       }
     } catch (error) {
       if (error) {
-        setErrorMessage('何らかのエラーが発生しました')
+        setErrorMessage('アカウントの作成に失敗しました。')
       }
     }
   }

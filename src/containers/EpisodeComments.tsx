@@ -2,11 +2,10 @@ import type { VFC } from 'react'
 
 // Mui
 import { Avatar, IconButton, Stack } from '@mui/material'
+import { Delete } from '@mui/icons-material'
 
 // Interfaces
 import { CorderUser } from '@interfaces/index'
-
-import { Delete } from '@mui/icons-material'
 
 // Styles
 import {
